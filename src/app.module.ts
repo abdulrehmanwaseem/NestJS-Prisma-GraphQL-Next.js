@@ -6,6 +6,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaModule } from './common/prisma/prisma.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { GqlThrottlerGuard } from './common/guard/gqlThrottler.guard';
 
 @Module({
   imports: [
@@ -14,6 +17,12 @@ import { PrismaModule } from './common/prisma/prisma.module';
       envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
     }),
     PrismaModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60,
+        limit: 10,
+      },
+    ]),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       imports: [ConfigModule],
@@ -23,10 +32,18 @@ import { PrismaModule } from './common/prisma/prisma.module';
         debug: configService.get<string>('NODE_ENV') === 'development',
         playground: configService.get<string>('NODE_ENV') === 'development',
         introspection: true,
+        context: ({ req, res }) => ({ req, res }),
       }),
     }),
   ],
   controllers: [],
-  providers: [AppService, AppResolver],
+  providers: [
+    AppService,
+    AppResolver,
+    {
+      provide: APP_GUARD,
+      useClass: GqlThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
