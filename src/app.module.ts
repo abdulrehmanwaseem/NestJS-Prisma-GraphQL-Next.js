@@ -30,7 +30,7 @@ import { GqlThrottlerGuard } from './common/guard/gqlThrottler.guard';
       useFactory: (configService: ConfigService) => ({
         autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
         debug: configService.get<string>('NODE_ENV') === 'development',
-        playground: configService.get<string>('NODE_ENV') === 'development',
+        playground: true,
         introspection: true,
         context: ({ req, res }) => ({ req, res }),
       }),

@@ -4,16 +4,16 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
-import { ThrottlerGuard } from '@nestjs/throttler';
+import { helmetConfig } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') || 3000;
 
-  app.use(helmet());
+  app.use(helmet(helmetConfig));
   app.use(cookieParser());
-  app.enableCors({ credentials: true, origin: 'http://localhost:5173' });
+  app.enableCors({ credentials: true });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -24,6 +24,8 @@ async function bootstrap() {
   );
 
   await app.listen(port);
-  console.log(`🚀 Server is running on http://localhost:${port} 🚀`);
+  console.log(
+    `🚀 Server is running on http://localhost:${port} in ${configService.get<string>('NODE_ENV')} mode🚀`,
+  );
 }
 bootstrap();
