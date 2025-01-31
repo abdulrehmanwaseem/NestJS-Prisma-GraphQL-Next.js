@@ -1,3 +1,7 @@
+# NestJS-Prisma-GraphQL
+
+This project is a highly scalable, industry-standard NestJS application using Prisma ORM and GraphQL. It follows best practices for modular architecture, performance, and security.
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -84,16 +88,14 @@ Check out a few resources that may come in handy when working with NestJS:
 - To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
 - Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
-## Support
+### Contributions:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+We welcome contributions! Feel free to open issues or submit pull requests to enhance this template.
 
-## Stay in touch
+## Security
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
 
-## License
+### License:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is provided under MIT. See the [LICENSE](LICENSE) file for details.
