@@ -1,14 +1,14 @@
+import { ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
-import { AppResolver } from './app.resolver';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'path';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PrismaModule } from './common/prisma/prisma.module';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { AppResolver } from './app.resolver';
+import { AppService } from './app.service';
 import { GqlThrottlerGuard } from './common/guard/gqlThrottler.guard';
+import { PrismaModule } from './common/prisma/prisma.module';
+import { graphQLConfig } from './config';
 
 @Module({
   imports: [
@@ -23,18 +23,7 @@ import { GqlThrottlerGuard } from './common/guard/gqlThrottler.guard';
         limit: 10,
       },
     ]),
-    GraphQLModule.forRootAsync<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-        debug: configService.get<string>('NODE_ENV') === 'development',
-        playground: true,
-        introspection: true,
-        context: ({ req, res }) => ({ req, res }),
-      }),
-    }),
+    GraphQLModule.forRootAsync<ApolloDriverConfig>(graphQLConfig),
   ],
   controllers: [],
   providers: [

@@ -1,15 +1,32 @@
+import { ApolloDriver } from '@nestjs/apollo';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { join } from 'path';
+
 export const helmetConfig = {
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'", '*'], // Allow everything but prioritize same-origin
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", '*'], // Allow scripts but avoid XSS risks
-      styleSrc: ["'self'", "'unsafe-inline'", '*'], // Allow inline styles and external styles
-      fontSrc: ["'self'", '*'], // Allow all font sources
-      imgSrc: ["'self'", 'data:', '*'], // Allow images from any source
-      connectSrc: ["'self'", '*'], // Allow API calls to any source
-      frameSrc: ["'self'", '*'], // Allow iframes (for Apollo Sandbox, etc.)
-      objectSrc: ["'none'"], // Disable embedding risky objects
-      upgradeInsecureRequests: [], // Automatically upgrade HTTP to HTTPS
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", '*'],
+      styleSrc: ["'self'", "'unsafe-inline'", '*'],
+      fontSrc: ["'self'", '*'],
+      imgSrc: ["'self'", 'data:', '*'],
+      connectSrc: ["'self'", '*'],
+      frameSrc: ["'self'", '*'],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
     },
   },
+};
+
+export const graphQLConfig = {
+  driver: ApolloDriver,
+  imports: [ConfigModule],
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService) => ({
+    autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    debug: configService.get<string>('NODE_ENV') === 'development',
+    playground: true,
+    introspection: true,
+    context: ({ req, res }) => ({ req, res }),
+  }),
 };
