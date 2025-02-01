@@ -1,6 +1,7 @@
 import { ApolloDriver } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
+import { Request, Response, NextFunction } from 'express';
 
 export const helmetConfig = {
   contentSecurityPolicy: {
@@ -43,3 +44,25 @@ export const csrfConfig = (CSRF_SECRET: string, NODE_ENV: string) => {
     size: 64,
   };
 };
+
+interface CsrfConfig {
+  allowedOrigin: string;
+}
+
+export function customCsrfProtection(config: CsrfConfig) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const { allowedOrigin } = config;
+
+    if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+      return next();
+    }
+
+    const origin = req.headers.origin || req.headers.referer;
+
+    if (!origin || !origin.startsWith(allowedOrigin)) {
+      return res.status(403).json({ error: 'Invalid CSRF request' });
+    }
+
+    next();
+  };
+}
