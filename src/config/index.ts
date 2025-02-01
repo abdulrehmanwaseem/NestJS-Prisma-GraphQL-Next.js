@@ -34,11 +34,11 @@ export const graphQLConfig = {
 export const csrfConfig = (CSRF_SECRET: string, NODE_ENV: string) => {
   return {
     getSecret: () => CSRF_SECRET || 'my-random-secret-key',
-    cookieName: 'XSRF-TOKEN',
+    cookieName: '__Host-x-csrf-token',
     cookieOptions: {
       httpOnly: true,
       secure: NODE_ENV === 'production',
-      sameSite: 'strict' as const,
+      sameSite: 'lax' as const,
     },
     size: 64,
   };
