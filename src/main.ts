@@ -4,16 +4,24 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
-import { helmetConfig } from './config';
+import { doubleCsrf } from 'csrf-csrf';
+import { csrfConfig, helmetConfig } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+
+  const NODE_ENV = configService.get<string>('NODE_ENV');
   const port = configService.get<number>('PORT') || 3000;
+
+  const { doubleCsrfProtection } = doubleCsrf(
+    csrfConfig(configService.get<string>('CSRF_SECRET'), NODE_ENV),
+  );
 
   app.use(helmet(helmetConfig));
   app.use(cookieParser());
   app.enableCors({ credentials: true });
+  app.use(doubleCsrfProtection);
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -25,7 +33,7 @@ async function bootstrap() {
 
   await app.listen(port);
   console.log(
-    `🚀 Server is running on http://localhost:${port} in ${configService.get<string>('NODE_ENV')} mode🚀`,
+    `🚀 Server is running on http://localhost:${port} in ${NODE_ENV} mode🚀`,
   );
 }
 bootstrap();

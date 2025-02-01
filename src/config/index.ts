@@ -30,3 +30,16 @@ export const graphQLConfig = {
     context: ({ req, res }) => ({ req, res }),
   }),
 };
+
+export const csrfConfig = (CSRF_SECRET: string, NODE_ENV: string) => {
+  return {
+    getSecret: () => CSRF_SECRET || 'my-random-secret-key',
+    cookieName: 'XSRF-TOKEN',
+    cookieOptions: {
+      httpOnly: true,
+      secure: NODE_ENV === 'production',
+      sameSite: 'strict' as const,
+    },
+    size: 64,
+  };
+};
