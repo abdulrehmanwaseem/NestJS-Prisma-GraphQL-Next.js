@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { GqlThrottlerGuard } from './common/guard/gqlThrottler.guard';
 import { PrismaModule } from './common/prisma/prisma.module';
 import { graphQLConfig } from './config';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -19,11 +20,12 @@ import { graphQLConfig } from './config';
     PrismaModule,
     ThrottlerModule.forRoot([
       {
-        ttl: 60,
-        limit: 10,
+        ttl: 60, // 1 minute window
+        limit: 10, // Max 10 requests per IP in 60 seconds
       },
     ]),
     GraphQLModule.forRootAsync<ApolloDriverConfig>(graphQLConfig),
+    UserModule,
   ],
   controllers: [],
   providers: [
