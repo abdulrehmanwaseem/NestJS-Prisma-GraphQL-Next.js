@@ -31,6 +31,7 @@ type User {
   role: Role!
   profile: Profile
   posts: [Post!]!
+  tags: [Tag!]
 }
 
 enum Role {
@@ -41,13 +42,13 @@ enum Role {
 type Query {
   getHello: String!
   getUsers: [User!]!
-  getUser(id: Int!): User!
+  getUser(id: String!): User!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  deleteUser(id: Int!): User!
 }
 
 input CreateUserInput {
