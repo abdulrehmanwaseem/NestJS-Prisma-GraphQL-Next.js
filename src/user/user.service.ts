@@ -7,15 +7,17 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
   create(createUserInput: CreateUserInput) {
-    return this.prisma.user.findMany();
+    return this.prisma.user.create({ data: createUserInput });
   }
 
   findAll() {
-    return [];
+    return this.prisma.user.findMany({
+      include: { profile: true, posts: true },
+    });
   }
 
   findOne(id: number) {
-    return { data: `This action returns a #${id} user` };
+    return { id };
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {

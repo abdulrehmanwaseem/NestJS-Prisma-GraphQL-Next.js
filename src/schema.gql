@@ -40,8 +40,8 @@ enum Role {
 
 type Query {
   getHello: String!
-  users: [User!]!
-  user(id: Int!): User!
+  getUsers: [User!]!
+  getUser(id: Int!): User!
 }
 
 type Mutation {
@@ -51,12 +51,16 @@ type Mutation {
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  username: String!
+  email: String!
+  password: String!
+  role: Role!
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  username: String
+  email: String
+  password: String
+  role: Role
   id: Int!
 }
