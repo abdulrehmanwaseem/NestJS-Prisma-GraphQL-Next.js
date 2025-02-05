@@ -17,7 +17,7 @@ model User {
   username String   @unique 
   email    String   @unique 
   password String
-  role     Role    
+  role     Role     @default(USER)
 
   profile  Profile? @relation("UserProfile") 
   posts    Post[]   @relation("UserPosts")
@@ -41,7 +41,7 @@ model Post {
   title   String  
   content String  
 
-  user    User    @relation("UserPosts", fields: [userId], references: [id])
+  user    User    @relation("UserPosts", fields: [userId], references: [id], onDelete: Cascade )
   userId  String
 
   tags    Tag[]   @relation("PostTags")

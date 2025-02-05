@@ -58,14 +58,14 @@ input CreateUserInput {
   username: String!
   email: String!
   password: String!
-  role: Role!
+  role: Role! = USER
 }
 
 input UpdateUserInput {
   username: String
   email: String
   password: String
-  role: Role
+  role: Role = USER
 }
 
 input CreatePostInput {
