@@ -23,13 +23,17 @@ export const graphQLConfig = {
   driver: ApolloDriver,
   imports: [ConfigModule],
   inject: [ConfigService],
-  useFactory: (configService: ConfigService) => ({
-    autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-    debug: configService.get<string>('NODE_ENV') === 'development',
-    playground: true,
-    introspection: true,
-    context: ({ req, res }) => ({ req, res }),
-  }),
+  useFactory: (configService: ConfigService) => {
+    const isDEV = configService.get<string>('NODE_ENV') === 'development';
+
+    return {
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      debug: isDEV,
+      playground: isDEV,
+      introspection: isDEV,
+      context: ({ req, res }) => ({ req, res }),
+    };
+  },
 };
 
 export const csrfConfig = (CSRF_SECRET: string, NODE_ENV: string) => {

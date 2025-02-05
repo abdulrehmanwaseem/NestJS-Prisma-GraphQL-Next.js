@@ -9,10 +9,19 @@ type Profile {
   user: User!
 }
 
-type Tag {
+type User {
   id: ID!
-  name: String!
+  username: String!
+  email: String!
+  password: String!
+  role: Role!
+  profile: Profile
   posts: [Post!]!
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 type Post {
@@ -23,32 +32,26 @@ type Post {
   tags: [Tag!]!
 }
 
-type User {
+type Tag {
   id: ID!
-  username: String!
-  email: String!
-  password: String!
-  role: Role!
-  profile: Profile
+  name: String!
   posts: [Post!]!
-  tags: [Tag!]
-}
-
-enum Role {
-  USER
-  ADMIN
 }
 
 type Query {
   getHello: String!
   getUsers: [User!]!
   getUser(id: String!): User!
+  post(id: Int!): Post!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser(id: Int!): User!
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post!
 }
 
 input CreateUserInput {
@@ -63,5 +66,16 @@ input UpdateUserInput {
   email: String
   password: String
   role: Role
+  id: String!
+}
+
+input CreatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
   id: Int!
 }

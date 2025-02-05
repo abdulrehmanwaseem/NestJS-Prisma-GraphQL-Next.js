@@ -1,7 +1,7 @@
-import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Profile } from './profile.entity';
 import { Post } from './post.entity';
-import { Role } from '@prisma/client';
+import { Role } from '../common/enums';
 
 @ObjectType()
 export class User {
@@ -26,7 +26,3 @@ export class User {
   @Field(() => [Post])
   posts: Post[];
 }
-
-registerEnumType(Role, {
-  name: 'Role',
-});

@@ -15,7 +15,6 @@ import { Post } from 'src/entities/post.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { Profile } from 'src/entities/profile.entity';
 import { Logger } from '@nestjs/common';
-import { Tag } from 'src/entities/tag.entity';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -39,22 +38,11 @@ export class UserResolver {
   @ResolveField(() => [Post])
   async posts(@Parent() user: User) {
     this.logger.debug(`Fetching posts for user ${user.id}`);
-    return await this.prisma.post.findMany({ where: { userId: user.id } });
-  }
-
-  @ResolveField(() => [Tag], { nullable: true })
-  async tags(@Parent() post: Post) {
-    this.logger.debug(`Fetching tags for post ${post.id}`);
-    return await this.prisma.tag.findMany({
-      where: {
-        posts: {
-          some: {
-            id: 1,
-          },
-        },
-      },
+    return await this.prisma.post.findMany({
+      where: { userId: user.id },
     });
   }
+
   @ResolveField(() => Profile, { nullable: true })
   async profile(@Parent() user: User) {
     this.logger.debug(`Fetching profile for user ${user.id}`);

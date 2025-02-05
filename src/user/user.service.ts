@@ -6,23 +6,22 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(createUserInput: CreateUserInput) {
-    return await this.prisma.user.create({ data: createUserInput });
-  }
-
   async findAll() {
     return await this.prisma.user.findMany();
   }
 
   async findOne(id: string) {
-    return await this.prisma.user.findUnique({
+    return await this.prisma.user.findUniqueOrThrow({
       where: {
         id,
       },
     });
   }
+  async create(createUserInput: CreateUserInput) {
+    return await this.prisma.user.create({ data: createUserInput });
+  }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
+  update(id: string, updateUserInput: UpdateUserInput) {
     return `This action updates a #${id} user`;
   }
 
