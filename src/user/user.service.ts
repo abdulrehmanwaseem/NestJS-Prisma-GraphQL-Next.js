@@ -21,11 +21,19 @@ export class UserService {
     return await this.prisma.user.create({ data: createUserInput });
   }
 
-  update(id: string, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserInput: UpdateUserInput) {
+    return await this.prisma.user.update({
+      where: { id },
+      data: updateUserInput,
+    });
   }
 
-  delete(id: number) {
-    return `This action removes a #${id} user`;
+  async delete(id: string) {
+    console.log('test');
+    const result = await this.prisma.user.delete({
+      where: { id },
+    });
+    console.log(result);
+    return true;
   }
 }

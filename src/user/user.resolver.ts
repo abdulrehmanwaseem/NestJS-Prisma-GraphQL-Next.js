@@ -1,20 +1,19 @@
+import { Logger } from '@nestjs/common';
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
-  Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql';
-import { UserService } from './user.service';
+import { PrismaService } from 'src/common/prisma/prisma.service';
+import { Post } from 'src/entities/post.entity';
+import { Profile } from 'src/entities/profile.entity';
 import { User } from '../entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { Post } from 'src/entities/post.entity';
-import { PrismaService } from 'src/common/prisma/prisma.service';
-import { Profile } from 'src/entities/profile.entity';
-import { Logger } from '@nestjs/common';
+import { UserService } from './user.service';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -31,7 +30,7 @@ export class UserResolver {
   }
 
   @Query(() => User)
-  getUser(@Args('id', { type: () => String }) id: string) {
+  getUser(@Args('id') id: string) {
     return this.userService.findOne(id);
   }
 
@@ -63,12 +62,16 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(updateUserInput.id, updateUserInput);
+  updateUser(
+    @Args('id') id: string,
+    @Args('updateUserInput')
+    updateUserInput: UpdateUserInput,
+  ) {
+    return this.userService.update(id, updateUserInput);
   }
 
-  @Mutation(() => User)
-  deleteUser(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => Boolean)
+  deleteUser(@Args('id') id: string) {
     return this.userService.delete(id);
   }
 }

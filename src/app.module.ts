@@ -6,12 +6,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
-import { GqlThrottlerGuard } from './common/guards/gql-throttler.guard';
-import { PrismaModule } from './common/prisma/prisma.module';
+import { GqlThrottlerGuard } from '@common/guards/gql-throttler.guard';
+import { PrismaModule } from '@common/prisma/prisma.module';
 import { graphQLConfig } from './config';
 import { PostModule } from './post/post.module';
 import { UserModule } from './user/user.module';
-import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { LoggerMiddleware } from '@common/middlewares/logger.middleware';
 
 @Module({
   imports: [
