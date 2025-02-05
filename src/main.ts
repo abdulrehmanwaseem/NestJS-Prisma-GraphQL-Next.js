@@ -6,9 +6,9 @@ import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { doubleCsrf } from 'csrf-csrf';
 import { csrfConfig, customCsrfProtection, helmetConfig } from './config';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { GraphQLLoggerInterceptor } from './common/interceptors/gql-logger.interceptor';
-import { EntityNotFoundFilter } from './common/filters/entity-not-found.filter';
+import { HttpExceptionFilter } from '@common/filters/http-exception.filter';
+import { GraphQLLoggerInterceptor } from '@common/interceptors/gql-logger.interceptor';
+import { PrismaExceptionFilter } from '@common/filters/prisma-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,7 +22,7 @@ async function bootstrap() {
     csrfConfig(configService.get<string>('CSRF_SECRET'), NODE_ENV),
   );
 
-  app.useGlobalFilters(new EntityNotFoundFilter());
+  app.useGlobalFilters(new PrismaExceptionFilter());
   app.useGlobalFilters(new HttpExceptionFilter());
 
   app.useGlobalInterceptors(new GraphQLLoggerInterceptor());
