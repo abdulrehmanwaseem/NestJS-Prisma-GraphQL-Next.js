@@ -21,12 +21,7 @@ import { AuthResolver } from './modules/auth/auth.resolver';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
-      load: [
-        () => ({
-          DATABASE_URL: process.env.DATABASE_URL,
-        }),
-      ],
+      envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     PrismaModule,
     ThrottlerModule.forRoot([
