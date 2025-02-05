@@ -6,6 +6,9 @@ import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { doubleCsrf } from 'csrf-csrf';
 import { csrfConfig, customCsrfProtection, helmetConfig } from './config';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { GraphQLLoggerInterceptor } from './common/interceptors/gql-logger.interceptor';
+import { EntityNotFoundFilter } from './common/filters/entity-not-found.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +21,11 @@ async function bootstrap() {
   const { doubleCsrfProtection } = doubleCsrf(
     csrfConfig(configService.get<string>('CSRF_SECRET'), NODE_ENV),
   );
+
+  app.useGlobalFilters(new EntityNotFoundFilter());
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  app.useGlobalInterceptors(new GraphQLLoggerInterceptor());
 
   app.use(helmet(helmetConfig));
   app.use(cookieParser());
@@ -35,7 +43,7 @@ async function bootstrap() {
 
   await app.listen(port);
   console.log(
-    `🚀 Server is running on http://localhost:${port} in ${NODE_ENV} mode🚀`,
+    `🚀 Server is running on http://localhost:${port} in ${NODE_ENV} mode`,
   );
 }
 bootstrap();
