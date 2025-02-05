@@ -28,8 +28,33 @@ export class PrismaExceptionFilter implements GqlExceptionFilter {
           `Foreign key constraint violation on field: ${exception?.meta?.field_name}`,
         );
 
+      case 'P2014':
+        return new BadRequestException(
+          `Invalid relation: The change you tried to make would violate required relations.`,
+        );
+
+      case 'P2016':
+        return new InternalServerErrorException(
+          `Query validation error: ${exception?.message}`,
+        );
+
+      case 'P2018':
+        return new NotFoundException(`Record not found: ${exception?.message}`);
+
+      case 'P2021':
+        return new InternalServerErrorException(
+          `Unknown table or column: ${exception?.meta?.column_name}`,
+        );
+
+      case 'P2022':
+        return new BadRequestException(
+          `Invalid value for column: ${exception?.meta?.column_name}`,
+        );
+
       default:
-        return new InternalServerErrorException('Database error');
+        return new InternalServerErrorException(
+          `Database error: ${exception.message}`,
+        );
     }
   }
 }
