@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Injectable()
 export class UserService {
@@ -17,8 +16,13 @@ export class UserService {
       },
     });
   }
-  async create(createUserInput: CreateUserInput) {
-    return await this.prisma.user.create({ data: createUserInput });
+
+  async findUserByEmail(email: string) {
+    return await this.prisma.user.findUniqueOrThrow({
+      where: {
+        email,
+      },
+    });
   }
 
   async update(id: string, updateUserInput: UpdateUserInput) {
@@ -29,7 +33,6 @@ export class UserService {
   }
 
   async delete(id: string) {
-    console.log('test');
     const result = await this.prisma.user.delete({
       where: { id },
     });

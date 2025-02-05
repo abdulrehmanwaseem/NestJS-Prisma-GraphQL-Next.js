@@ -13,7 +13,6 @@ type User {
   id: ID!
   username: String!
   email: String!
-  password: String!
   role: Role!
   profile: Profile
   posts: [Post!]!
@@ -38,6 +37,11 @@ type Post {
   tags: [Tag!]!
 }
 
+type AuthPayload {
+  userId: String!
+  role: Role!
+}
+
 type Query {
   getHello: String!
   getUsers: [User!]!
@@ -47,7 +51,7 @@ type Query {
 
 type Mutation {
   signUp(input: CreateUserInput!): User!
-  createUser(createUserInput: CreateUserInput!): User!
+  signIn(input: SignInInput!): AuthPayload!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   deleteUser(id: String!): Boolean!
   createPost(createPostInput: CreatePostInput!): Post!
@@ -57,6 +61,11 @@ type Mutation {
 
 input CreateUserInput {
   username: String!
+  email: String!
+  password: String!
+}
+
+input SignInInput {
   email: String!
   password: String!
 }

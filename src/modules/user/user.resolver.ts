@@ -10,10 +10,9 @@ import {
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { Post } from 'src/entities/post.entity';
 import { Profile } from 'src/entities/profile.entity';
-import { CreateUserInput } from './dto/create-user.input';
+import { User } from 'src/entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserService } from './user.service';
-import { User } from 'src/entities/user.entity';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -54,11 +53,6 @@ export class UserResolver {
         avatar: 'https://robohash.org/22e77114bdc4a671ec81a2d498114b5d',
       }
     );
-  }
-
-  @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.create(createUserInput);
   }
 
   @Mutation(() => User)
