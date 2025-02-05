@@ -44,15 +44,9 @@ export class UserResolver {
   @ResolveField(() => Profile, { nullable: true })
   async profile(@Parent() user: User) {
     this.logger.debug(`Fetching profile for user ${user.id}`);
-    return (
-      (await this.prisma.profile.findUnique({
-        where: { userId: user.id },
-      })) || {
-        id: 1,
-        bio: 'I am biology',
-        avatar: 'https://robohash.org/22e77114bdc4a671ec81a2d498114b5d',
-      }
-    );
+    return await this.prisma.profile.findUnique({
+      where: { userId: user.id },
+    });
   }
 
   @Mutation(() => User)

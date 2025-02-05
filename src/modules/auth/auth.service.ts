@@ -1,7 +1,7 @@
 import { PrismaService } from '@common/prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserInput } from '../user/dto/create-user.input';
-import { hash } from 'argon2';
+import { hash, verify } from 'argon2';
 import { Role } from '@prisma/client';
 import { SignInInput } from './dto/signIn.input';
 import { UserService } from '../user/user.service';
@@ -15,7 +15,7 @@ export class AuthService {
 
   async registerUser(input: CreateUserInput) {
     const hashedPassword = await hash(input.password);
-    return this.prisma.user.create({
+    return await this.prisma.user.create({
       data: {
         ...input,
         password: hashedPassword,
@@ -25,8 +25,13 @@ export class AuthService {
   }
 
   async validateLocalUser({ email, password }: SignInInput) {
-    const user = this.userService.findUserByEmail(email);
+    const user = await this.userService.findUserByEmail(email);
 
-    return { email: '', password: '' };
+    const passwordMatched = await verify(user.password, password);
+    if (!passwordMatched) {
+      throw new UnauthorizedException('Invalid Credentials!');
+    }
+
+    return user;
   }
 }

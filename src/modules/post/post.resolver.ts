@@ -35,7 +35,7 @@ export class PostResolver {
   @ResolveField(() => [Tag])
   async tags(@Parent() post: Post) {
     this.logger.debug(`Fetching tags for post ${post.id}`);
-    return this.prisma.tag.findMany({
+    return await this.prisma.tag.findMany({
       where: { posts: { some: { id: post.id } } },
     });
   }
