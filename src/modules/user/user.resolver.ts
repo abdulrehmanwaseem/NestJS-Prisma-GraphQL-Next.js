@@ -10,10 +10,10 @@ import {
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { Post } from 'src/entities/post.entity';
 import { Profile } from 'src/entities/profile.entity';
-import { User } from '../entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserService } from './user.service';
+import { User } from 'src/entities/user.entity';
 
 @Resolver(() => User)
 export class UserResolver {

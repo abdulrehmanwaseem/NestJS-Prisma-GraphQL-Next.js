@@ -9,9 +9,13 @@ import { AppService } from './app.service';
 import { GqlThrottlerGuard } from '@common/guards/gql-throttler.guard';
 import { PrismaModule } from '@common/prisma/prisma.module';
 import { graphQLConfig } from './config';
-import { PostModule } from './post/post.module';
-import { UserModule } from './user/user.module';
+
 import { LoggerMiddleware } from '@common/middlewares/logger.middleware';
+import { AuthService } from './modules/auth/auth.service';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { PostModule } from './modules/post/post.module';
+import { AuthResolver } from './modules/auth/auth.resolver';
 
 @Module({
   imports: [
@@ -29,15 +33,18 @@ import { LoggerMiddleware } from '@common/middlewares/logger.middleware';
     GraphQLModule.forRootAsync<ApolloDriverConfig>(graphQLConfig),
     UserModule,
     PostModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [
-    AppService,
-    AppResolver,
     {
       provide: APP_GUARD,
       useClass: GqlThrottlerGuard,
     },
+    AppService,
+    AppResolver,
+    AuthResolver,
+    AuthService,
   ],
 })
 export class AppModule implements NestModule {

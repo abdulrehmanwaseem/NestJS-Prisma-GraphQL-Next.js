@@ -24,18 +24,18 @@ enum Role {
   ADMIN
 }
 
+type Tag {
+  id: ID!
+  name: String!
+  posts: [Post!]!
+}
+
 type Post {
   id: ID!
   title: String!
   content: String!
   user: User!
   tags: [Tag!]!
-}
-
-type Tag {
-  id: ID!
-  name: String!
-  posts: [Post!]!
 }
 
 type Query {
@@ -46,6 +46,7 @@ type Query {
 }
 
 type Mutation {
+  signUp(input: CreateUserInput!): User!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   deleteUser(id: String!): Boolean!
@@ -58,14 +59,12 @@ input CreateUserInput {
   username: String!
   email: String!
   password: String!
-  role: Role! = USER
 }
 
 input UpdateUserInput {
   username: String
   email: String
   password: String
-  role: Role = USER
 }
 
 input CreatePostInput {

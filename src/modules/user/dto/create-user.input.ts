@@ -13,10 +13,11 @@ export class CreateUserInput {
   email: string;
 
   @Field()
+  @IsString()
   @MinLength(6)
   password: string;
 
-  @Field(() => Role, { defaultValue: Role.USER })
-  @IsEnum(Role)
-  role: Role;
+  // @Field(() => Role, { defaultValue: Role.USER })
+  // @IsEnum(Role)
+  // role: Role;
 }
