@@ -16,12 +16,12 @@ import { ConfigService } from '@nestjs/config';
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
 
-  async registerUser(input: CreateUserInput) {
+  async registerUser(input: CreateUserInput): Promise<User> {
     const hashedPassword = await hash(input.password);
     return await this.prisma.user.create({
       data: {
@@ -32,7 +32,7 @@ export class AuthService {
     });
   }
 
-  async validateLocalUser({ email, password }: SignInInput) {
+  async validateLocalUser({ email, password }: SignInInput): Promise<User> {
     const user = await this.userService.findUserByEmail(email);
 
     const passwordMatched = await verify(user.password, password);
@@ -56,7 +56,7 @@ export class AuthService {
   async login(user: User, res: Response): Promise<AuthPayload> {
     const { jwtToken } = await this.generateToken(user.id);
 
-    setAuthCookie(res, jwtToken, this.configService.get<string>('NODE_ENV'));
+    setAuthCookie(res, jwtToken, this.configService);
 
     return { userId: user.id, role: user.role };
   }

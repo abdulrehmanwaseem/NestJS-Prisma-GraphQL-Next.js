@@ -10,9 +10,13 @@ import { Request, Response } from 'express';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => User)
-  signUp(@Args('input') input: CreateUserInput) {
-    return this.authService.registerUser(input);
+  @Mutation(() => AuthPayload)
+  async signUp(
+    @Args('input') input: CreateUserInput,
+    @Context('res') res: Response,
+  ) {
+    const user = await this.authService.registerUser(input);
+    return await this.authService.login(user, res);
   }
 
   @Mutation(() => AuthPayload)
@@ -21,7 +25,6 @@ export class AuthResolver {
     @Context('res') res: Response,
     @Context('req') req: Request,
   ) {
-    console.log(req.cookies['jwt']);
     const user = await this.authService.validateLocalUser(input);
     return await this.authService.login(user, res);
   }

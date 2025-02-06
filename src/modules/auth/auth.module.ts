@@ -5,15 +5,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from '../user/user.module';
 
-// TODO: might need to import UserModule if app gives error!
 @Module({
   imports: [
-    ConfigModule, // ✅ Ensure ConfigModule is imported
-
     UserModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
+      global: true,
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
@@ -23,6 +21,6 @@ import { UserModule } from '../user/user.module';
     }),
   ],
   providers: [AuthResolver, AuthService],
-  exports: [JwtModule],
+  exports: [],
 })
 export class AuthModule {}

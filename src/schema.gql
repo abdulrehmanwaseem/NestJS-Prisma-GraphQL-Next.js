@@ -2,11 +2,30 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthPayload {
+  userId: String!
+  role: Role!
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
 type Profile {
   id: ID!
   bio: String!
   avatar: String!
   user: User!
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  role: Role!
+  profile: Profile
+  posts: [Post!]!
 }
 
 type Tag {
@@ -23,25 +42,6 @@ type Post {
   tags: [Tag!]!
 }
 
-type User {
-  id: ID!
-  username: String!
-  email: String!
-  role: Role!
-  profile: Profile
-  posts: [Post!]!
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-
-type AuthPayload {
-  userId: String!
-  role: Role!
-}
-
 type Query {
   getHello: String!
   getUsers: [User!]!
@@ -50,7 +50,7 @@ type Query {
 }
 
 type Mutation {
-  signUp(input: CreateUserInput!): User!
+  signUp(input: CreateUserInput!): AuthPayload!
   signIn(input: SignInInput!): AuthPayload!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   deleteUser(id: String!): Boolean!
