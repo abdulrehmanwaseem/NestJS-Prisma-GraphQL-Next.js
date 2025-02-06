@@ -6,7 +6,7 @@ export function setAuthCookie(
   token: string,
   configService: ConfigService,
 ) {
-  res.cookie('user_token', token, {
+  res.cookie(configService.get<string>('JWT_TOKEN_NAME'), token, {
     httpOnly: true,
     secure: configService.get<string>('NODE_ENV') === 'production',
     sameSite: 'lax',

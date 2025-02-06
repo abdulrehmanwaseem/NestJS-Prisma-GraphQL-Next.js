@@ -1,16 +1,17 @@
 import { PrismaService } from '@common/prisma/prisma.service';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserInput } from '../user/dto/create-user.input';
-import { hash, verify } from 'argon2';
-import { Role, User } from '@prisma/client';
-import { SignInInput } from './dto/signIn.input';
-import { UserService } from '../user/user.service';
-import { AuthJwtPayload } from './types/auth-jwt-payload';
-import { JwtService } from '@nestjs/jwt';
-import { AuthPayload } from './entities/auth-payload';
-import { Response } from 'express';
 import { setAuthCookie } from '@common/utils';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { Role, User } from '@prisma/client';
+import { hash, verify } from 'argon2';
+import { Response } from 'express';
+import { CreateUserInput } from '../user/dto/create-user.input';
+import { UserService } from '../user/user.service';
+import { SignInInput } from './dto/signIn.input';
+import { AuthPayload } from './entities/auth-payload';
+import { AuthJwtPayload } from './types/auth-jwt-payload';
+import { JwtUser } from './types/jwt-user';
 
 @Injectable()
 export class AuthService {
@@ -59,5 +60,20 @@ export class AuthService {
     setAuthCookie(res, jwtToken, this.configService);
 
     return { userId: user.id, role: user.role };
+  }
+
+  async validateJwtUser(userId: string) {
+    const { id, role } = await this.prisma.user.findUniqueOrThrow({
+      where: {
+        id: userId,
+      },
+    });
+
+    const jwtUser: JwtUser = {
+      userId: id,
+      role,
+    };
+
+    return jwtUser;
   }
 }
