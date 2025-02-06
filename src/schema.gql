@@ -9,20 +9,6 @@ type Profile {
   user: User!
 }
 
-type User {
-  id: ID!
-  username: String!
-  email: String!
-  role: Role!
-  profile: Profile
-  posts: [Post!]!
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-
 type Tag {
   id: ID!
   name: String!
@@ -35,6 +21,20 @@ type Post {
   content: String!
   user: User!
   tags: [Tag!]!
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  role: Role!
+  profile: Profile
+  posts: [Post!]!
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 type AuthPayload {

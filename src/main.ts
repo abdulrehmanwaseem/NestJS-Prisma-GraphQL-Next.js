@@ -29,9 +29,12 @@ async function bootstrap() {
 
   app.use(helmet(helmetConfig));
   app.use(cookieParser());
-  app.enableCors({ credentials: true });
+  app.enableCors({
+    credentials: true,
+    origin: ['http://localhost:4000', 'http://localhost:5173/'],
+  });
   // app.use(doubleCsrfProtection); // ✅ Use for high security
-  app.use(customCsrfProtection({ allowedOrigin }));
+  // app.use(customCsrfProtection({ allowedOrigin }));
 
   app.useGlobalPipes(
     new ValidationPipe({
