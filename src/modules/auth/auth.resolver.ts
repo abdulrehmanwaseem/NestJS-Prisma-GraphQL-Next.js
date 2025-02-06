@@ -1,9 +1,10 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, Context } from '@nestjs/graphql';
 import { User } from 'src/entities/user.entity';
 import { CreateUserInput } from '../user/dto/create-user.input';
 import { AuthService } from './auth.service';
 import { AuthPayload } from './entities/auth-payload';
 import { SignInInput } from './dto/signIn.input';
+import { Request, Response } from 'express';
 
 @Resolver()
 export class AuthResolver {
@@ -15,7 +16,13 @@ export class AuthResolver {
   }
 
   @Mutation(() => AuthPayload)
-  signIn(@Args('input') input: SignInInput) {
-    return this.authService.validateLocalUser(input);
+  async signIn(
+    @Args('input') input: SignInInput,
+    @Context('res') res: Response,
+    @Context('req') req: Request,
+  ) {
+    console.log(req.cookies['jwt']);
+    const user = await this.authService.validateLocalUser(input);
+    return await this.authService.login(user, res);
   }
 }
