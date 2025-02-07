@@ -1,5 +1,5 @@
 import { PrismaService } from '@common/prisma/prisma.service';
-import { setAuthCookie } from '@common/utils';
+import { setAuthCookie } from '@common/utils/auth-cookie.util';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';

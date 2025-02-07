@@ -1,4 +1,8 @@
-import { Logger, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { CurrentUser } from '@common/decorators/current-user.decorator';
+import { AuthGuard } from '@common/guards/auth.guard';
+import { clearAuthCookie } from '@common/utils/auth-cookie.util';
+import { Logger, UseGuards } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   Args,
   Context,
@@ -12,12 +16,10 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import { Post } from 'src/entities/post.entity';
 import { Profile } from 'src/entities/profile.entity';
 import { User } from 'src/entities/user.entity';
+import { JwtUser } from '../auth/types/jwt-user';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserService } from './user.service';
-import { CurrentUser } from '@common/decorators/current-user.decorator';
-import { JwtUser } from '../auth/types/jwt-user';
-import { AuthGuard } from '@common/guards/auth.guard';
-import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
 
 @UseGuards(AuthGuard)
 @Resolver(() => User)
@@ -72,6 +74,8 @@ export class UserResolver {
   ) {
     const deleted = await this.userService.delete(user.userId);
 
-    return deleted && true;
+    clearAuthCookie(res, this.configService);
+
+    return deleted;
   }
 }
