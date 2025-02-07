@@ -22,4 +22,7 @@ export class User {
 
   @Field(() => [Post])
   posts: Post[];
+
+  @Field()
+  isTwoFAEnabled: boolean;
 }

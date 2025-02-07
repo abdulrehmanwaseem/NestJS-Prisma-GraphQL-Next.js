@@ -19,6 +19,9 @@ model User {
   password String
   role     Role     @default(USER)
 
+  twoFASecret    String? @default("") 
+  isTwoFAEnabled Boolean @default(false)
+
   profile  Profile? @relation("UserProfile") 
   posts    Post[]   @relation("UserPosts")
 

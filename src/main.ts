@@ -1,15 +1,15 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
-import helmet from 'helmet';
-import { doubleCsrf } from 'csrf-csrf';
-import { csrfConfig, customCsrfProtection, helmetConfig } from './config';
 import { HttpExceptionFilter } from '@common/filters/http-exception.filter';
-import { GraphQLLoggerInterceptor } from '@common/interceptors/gql-logger.interceptor';
 import { PrismaExceptionFilter } from '@common/filters/prisma-exception.filter';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { GraphQLLoggerInterceptor } from '@common/interceptors/gql-logger.interceptor';
+import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
+import { doubleCsrf } from 'csrf-csrf';
+import helmet from 'helmet';
+import { AppModule } from './app.module';
+import { csrfConfig, helmetConfig } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,13 +35,15 @@ async function bootstrap() {
     origin: ['http://localhost:4000', 'http://localhost:5173/'],
   });
   // app.use(doubleCsrfProtection); // ✅ Use for high security
-  // app.use(customCsrfProtection({ allowedOrigin }));
 
   const config = new DocumentBuilder()
     .setTitle('NestJS-Prisma-GraphQL API')
-    .setDescription('Full documentation for this API')
+    .setDescription(
+      'GraphQL is available at `/graphql`. Use [GraphQL Playground](http://localhost:4000/graphql) to test queries.',
+    )
     .setVersion('1.0')
     .addCookieAuth()
+    .addTag('GraphQL is available at /graphql')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
