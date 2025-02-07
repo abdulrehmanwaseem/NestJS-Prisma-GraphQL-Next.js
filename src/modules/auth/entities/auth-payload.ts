@@ -6,6 +6,6 @@ export class AuthPayload {
   @Field()
   userId: string;
 
-  @Field(() => Role)
-  role: Role;
+  @Field(() => Role, { nullable: true })
+  role?: Role;
 }

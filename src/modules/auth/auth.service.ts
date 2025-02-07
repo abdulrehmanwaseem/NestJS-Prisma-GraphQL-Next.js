@@ -6,6 +6,8 @@ import { JwtService } from '@nestjs/jwt';
 import { Role, User } from '@prisma/client';
 import { hash, verify } from 'argon2';
 import { Response } from 'express';
+import * as qrcode from 'qrcode';
+import * as speakeasy from 'speakeasy';
 import { CreateUserInput } from '../user/dto/create-user.input';
 import { UserService } from '../user/user.service';
 import { SignInInput } from './dto/signIn.input';

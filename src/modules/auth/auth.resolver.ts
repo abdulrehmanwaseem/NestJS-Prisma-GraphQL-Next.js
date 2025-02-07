@@ -21,6 +21,12 @@ export class AuthResolver {
     private readonly configService: ConfigService,
   ) {}
 
+  @UseGuards(AuthGuard)
+  @Query(() => User)
+  getProfile(@CurrentUser() user: JwtUser) {
+    return this.userService.findOne(user.userId);
+  }
+
   @Mutation(() => AuthPayload)
   async signUp(
     @Args('input') input: CreateUserInput,
@@ -40,10 +46,8 @@ export class AuthResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Query(() => User)
-  getProfile(@CurrentUser() user: JwtUser) {
-    return this.userService.findOne(user.userId);
-  }
+  @Mutation(() => String)
+  enable2FA() {}
 
   @UseGuards(AuthGuard)
   @Mutation(() => Boolean)

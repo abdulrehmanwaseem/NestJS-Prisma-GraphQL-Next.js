@@ -4,7 +4,7 @@
 
 type AuthPayload {
   userId: String!
-  role: Role!
+  role: Role
 }
 
 enum Role {
@@ -54,6 +54,7 @@ type Query {
 type Mutation {
   signUp(input: CreateUserInput!): AuthPayload!
   signIn(input: SignInInput!): AuthPayload!
+  enable2FA: String!
   logout: Boolean!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser: Boolean!
