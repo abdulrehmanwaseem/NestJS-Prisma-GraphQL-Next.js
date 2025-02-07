@@ -56,6 +56,7 @@ type Mutation {
   logout: Boolean!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser: Boolean!
+  deleteUserByAdmin(id: String!): Boolean!
   createPost(createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(id: Int!): Post!

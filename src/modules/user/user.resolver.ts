@@ -42,8 +42,6 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
   @Query(() => User)
   getUser(@Args('id') id: string) {
     return this.userService.findOne(id);
@@ -82,6 +80,20 @@ export class UserResolver {
     const deleted = await this.userService.delete(user.userId);
 
     clearAuthCookie(res, this.configService);
+
+    return deleted;
+  }
+
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @Mutation(() => Boolean)
+  async deleteUserByAdmin(
+    @Args('id') id: string,
+    @CurrentUser() adminUser: JwtUser,
+  ) {
+    this.logger.warn(`Admin ${adminUser.userId} is deleting user ${id}`);
+
+    const deleted = await this.userService.delete(id);
 
     return deleted;
   }
