@@ -1,6 +1,7 @@
-import { Logger } from '@nestjs/common';
+import { Logger, UnauthorizedException, UseGuards } from '@nestjs/common';
 import {
   Args,
+  Context,
   Mutation,
   Parent,
   Query,
@@ -13,12 +14,18 @@ import { Profile } from 'src/entities/profile.entity';
 import { User } from 'src/entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserService } from './user.service';
+import { CurrentUser } from '@common/decorators/current-user.decorator';
+import { JwtUser } from '../auth/types/jwt-user';
+import { AuthGuard } from '@common/guards/auth.guard';
+import { ConfigService } from '@nestjs/config';
 
+@UseGuards(AuthGuard)
 @Resolver(() => User)
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
   ) {}
 
   private readonly logger = new Logger(UserResolver.name);
@@ -51,15 +58,20 @@ export class UserResolver {
 
   @Mutation(() => User)
   updateUser(
-    @Args('id') id: string,
+    @CurrentUser() user: JwtUser,
     @Args('updateUserInput')
     updateUserInput: UpdateUserInput,
   ) {
-    return this.userService.update(id, updateUserInput);
+    return this.userService.update(user.userId, updateUserInput);
   }
 
   @Mutation(() => Boolean)
-  deleteUser(@Args('id') id: string) {
-    return this.userService.delete(id);
+  async deleteUser(
+    @CurrentUser() user: JwtUser,
+    @Context('res') res: Response,
+  ) {
+    const deleted = await this.userService.delete(user.userId);
+
+    return deleted && true;
   }
 }
