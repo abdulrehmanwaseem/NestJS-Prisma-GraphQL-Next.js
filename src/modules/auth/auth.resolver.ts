@@ -10,12 +10,15 @@ import { CurrentUser } from '@common/decorators/current-user.decorator';
 import { JwtUser } from './types/jwt-user';
 import { AuthGuard } from '@common/guards/auth.guard';
 import { UserService } from '../user/user.service';
+import { clearAuthCookie } from '@common/utils/auth-cookie.util';
+import { ConfigService } from '@nestjs/config';
 
 @Resolver()
 export class AuthResolver {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Mutation(() => AuthPayload)
@@ -40,5 +43,12 @@ export class AuthResolver {
   @Query(() => User)
   getProfile(@CurrentUser() user: JwtUser) {
     return this.userService.findOne(user.userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => Boolean)
+  logout(@Context('res') res: Response) {
+    clearAuthCookie(res, this.configService);
+    return true;
   }
 }
