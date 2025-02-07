@@ -9,6 +9,7 @@ import { csrfConfig, customCsrfProtection, helmetConfig } from './config';
 import { HttpExceptionFilter } from '@common/filters/http-exception.filter';
 import { GraphQLLoggerInterceptor } from '@common/interceptors/gql-logger.interceptor';
 import { PrismaExceptionFilter } from '@common/filters/prisma-exception.filter';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,6 +36,16 @@ async function bootstrap() {
   });
   // app.use(doubleCsrfProtection); // ✅ Use for high security
   // app.use(customCsrfProtection({ allowedOrigin }));
+
+  const config = new DocumentBuilder()
+    .setTitle('NestJS-Prisma-GraphQL API')
+    .setDescription('Full documentation for this API')
+    .setVersion('1.0')
+    .addCookieAuth()
+    .build();
+
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, documentFactory);
 
   app.useGlobalPipes(
     new ValidationPipe({

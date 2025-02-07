@@ -1,10 +1,10 @@
 {
-  "name": "NEST-JS",
-  "version": "0.0.1",
+  "name": "NestJS-Prisma-GraphQL",
+  "version": "1.0.0",
   "description": "",
-  "author": "",
+  "author": "Abdul Rehman",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -34,6 +34,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^10.4.15",
     "@nestjs/serve-static": "^5.0.1",
+    "@nestjs/swagger": "^11.0.3",
     "@nestjs/throttler": "^6.4.0",
     "@prisma/client": "6.3.0",
     "@superhero/openssl": "^4.0.2",

@@ -36,22 +36,6 @@ export const graphQLConfig = {
   },
 };
 
-//  cors: {
-//     credentials: true,
-//     origin: ['http://localhost:8080'],
-//   }
-// const GraphQL = GraphQLModule.forRoot<ApolloDriverConfig>({
-//   driver: ApolloDriver,
-//   playground: {
-//     settings: {
-//       'request.credentials': 'include', // Otherwise cookies won't be sent
-//     },
-//   },
-//   // ...
-// });
-
-// cors: { origin: true, credentials: true },
-
 export const csrfConfig = (CSRF_SECRET: string, NODE_ENV: string) => {
   return {
     getSecret: () => CSRF_SECRET || 'my-random-secret-key',
