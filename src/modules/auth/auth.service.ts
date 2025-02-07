@@ -24,11 +24,19 @@ export class AuthService {
 
   async registerUser(input: CreateUserInput): Promise<User> {
     const hashedPassword = await hash(input.password);
+
+    // Finding for giving role admin to first user, it is well optimize upto millions users:
+    const firstUser = await this.prisma.user.findFirst({
+      select: { id: true },
+    });
+
+    const role = firstUser ? Role.USER : Role.ADMIN; // First user = Admin
+
     return await this.prisma.user.create({
       data: {
         ...input,
         password: hashedPassword,
-        role: Role.USER,
+        role,
       },
     });
   }

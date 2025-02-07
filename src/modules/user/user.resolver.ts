@@ -87,14 +87,18 @@ export class UserResolver {
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
   @Mutation(() => Boolean)
-  async deleteUserByAdmin(
+  async promoteUserToAdmin(
     @Args('id') id: string,
     @CurrentUser() adminUser: JwtUser,
   ) {
-    this.logger.warn(`Admin ${adminUser.userId} is deleting user ${id}`);
+    this.logger.warn(
+      `Admin ${adminUser.userId} is promoting user ${id} to ADMIN`,
+    );
 
-    const deleted = await this.userService.delete(id);
+    const updatedUser = await this.userService.updateRole(id, {
+      role: Role.ADMIN,
+    });
 
-    return deleted;
+    return !!updatedUser;
   }
 }
