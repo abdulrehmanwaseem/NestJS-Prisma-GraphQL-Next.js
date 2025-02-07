@@ -20,6 +20,9 @@ import { JwtUser } from '../auth/types/jwt-user';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserService } from './user.service';
 import { Response } from 'express';
+import { Roles } from '@common/decorators/roles.decorator';
+import { Role } from '@common/enums';
+import { RolesGuard } from '@common/guards/roles.guard';
 
 @UseGuards(AuthGuard)
 @Resolver(() => User)
@@ -32,11 +35,15 @@ export class UserResolver {
 
   private readonly logger = new Logger(UserResolver.name);
 
+  @Roles(Role.ADMIN, Role.USER)
+  @UseGuards(RolesGuard)
   @Query(() => [User])
   getUsers() {
     return this.userService.findAll();
   }
 
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
   @Query(() => User)
   getUser(@Args('id') id: string) {
     return this.userService.findOne(id);

@@ -53,6 +53,7 @@ type Query {
 type Mutation {
   signUp(input: CreateUserInput!): AuthPayload!
   signIn(input: SignInInput!): AuthPayload!
+  logout: Boolean!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser: Boolean!
   createPost(createPostInput: CreatePostInput!): Post!
