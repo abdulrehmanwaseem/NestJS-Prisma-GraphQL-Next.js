@@ -14,6 +14,7 @@ import { SignInInput } from './dto/signIn.input';
 import { AuthPayload } from './entities/auth-payload';
 import { AuthJwtPayload } from './types/auth-jwt-payload';
 import { JwtUser } from './types/jwt-user';
+import { SignInResponse } from './entities/sign-in-response.payload';
 
 @Injectable()
 export class AuthService {
@@ -41,6 +42,16 @@ export class AuthService {
         role,
       },
     });
+  }
+
+  async signIn(input: SignInInput, res: Response): Promise<SignInResponse> {
+    const user = await this.validateLocalUser(input);
+
+    if (user.isTwoFAEnabled) {
+      return { userId: user.id, requires2FA: true }; // Ask for OTP
+    }
+
+    return this.login(user, res);
   }
 
   async validateLocalUser({ email, password }: SignInInput): Promise<User> {
@@ -85,5 +96,53 @@ export class AuthService {
     };
 
     return jwtUser;
+  }
+
+  async generate2FA(userId: string): Promise<string> {
+    const secret = speakeasy.generateSecret({
+      name: `NestJS-Prisma-GraphQL (${userId})`,
+    });
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        isTwoFAEnabled: true,
+        twoFASecret: secret.base32,
+      },
+    });
+
+    return qrcode.toDataURL(secret.otpauth_url);
+  }
+
+  async validate2FA(userId: string, token: string): Promise<boolean> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { twoFASecret: true },
+    });
+
+    if (!user.twoFASecret) {
+      throw new UnauthorizedException('2FA is not enabled.');
+    }
+
+    return speakeasy.totp.verify({
+      secret: user.twoFASecret,
+      encoding: 'base32',
+      token,
+    });
+  }
+
+  async verifyAndLoginWith2FA(
+    userId: string,
+    token: string,
+    res: Response,
+  ): Promise<AuthPayload> {
+    const isValid = await this.validate2FA(userId, token);
+    if (!isValid) {
+      throw new UnauthorizedException('Invalid OTP Provided.');
+    }
+
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+
+    return this.login(user, res);
   }
 }

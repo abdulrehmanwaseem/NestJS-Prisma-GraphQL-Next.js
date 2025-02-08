@@ -43,6 +43,12 @@ type User {
   isTwoFAEnabled: Boolean!
 }
 
+type SignInResponse {
+  userId: String!
+  role: Role
+  requires2FA: Boolean
+}
+
 type Query {
   getHello: String!
   getProfile: User!
@@ -53,8 +59,9 @@ type Query {
 
 type Mutation {
   signUp(input: CreateUserInput!): AuthPayload!
-  signIn(input: SignInInput!): AuthPayload!
+  signIn(input: SignInInput!): SignInResponse!
   enable2FA: String!
+  verify2FALogin(userId: String!, token: String!): AuthPayload!
   logout: Boolean!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser: Boolean!

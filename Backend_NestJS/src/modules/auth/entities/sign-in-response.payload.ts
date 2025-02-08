@@ -3,6 +3,6 @@ import { AuthPayload } from './auth-payload';
 
 @ObjectType()
 export class SignInResponse extends AuthPayload {
-  @Field({ nullable: true })
+  @Field({ nullable: true, defaultValue: false })
   requires2FA?: boolean;
 }

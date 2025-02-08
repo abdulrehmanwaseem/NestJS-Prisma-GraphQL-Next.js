@@ -12,6 +12,7 @@ import { AuthGuard } from '@common/guards/auth.guard';
 import { UserService } from '../user/user.service';
 import { clearAuthCookie } from '@common/utils/auth-cookie.util';
 import { ConfigService } from '@nestjs/config';
+import { SignInResponse } from './entities/sign-in-response.payload';
 
 @Resolver()
 export class AuthResolver {
@@ -33,21 +34,28 @@ export class AuthResolver {
     @Context('res') res: Response,
   ) {
     const user = await this.authService.registerUser(input);
-    return await this.authService.login(user, res);
+    return this.authService.login(user, res);
   }
 
-  @Mutation(() => AuthPayload)
-  async signIn(
-    @Args('input') input: SignInInput,
-    @Context('res') res: Response,
-  ) {
-    const user = await this.authService.validateLocalUser(input);
-    return await this.authService.login(user, res);
+  @Mutation(() => SignInResponse)
+  signIn(@Args('input') input: SignInInput, @Context('res') res: Response) {
+    return this.authService.signIn(input, res);
   }
 
   @UseGuards(AuthGuard)
   @Mutation(() => String)
-  enable2FA() {}
+  enable2FA(@CurrentUser() user: JwtUser) {
+    return this.authService.generate2FA(user.userId);
+  }
+
+  @Mutation(() => AuthPayload)
+  verify2FALogin(
+    @Args('userId') userId: string,
+    @Args('token') token: string,
+    @Context('res') res: Response,
+  ) {
+    return this.authService.verifyAndLoginWith2FA(userId, token, res);
+  }
 
   @UseGuards(AuthGuard)
   @Mutation(() => Boolean)
