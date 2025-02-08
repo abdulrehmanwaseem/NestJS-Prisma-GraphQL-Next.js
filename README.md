@@ -1,45 +1,44 @@
-# NestJS-Prisma-GraphQL
+# NestJS-Prisma-GraphQL-Next.js
 
-This project is a highly scalable, industry-standard NestJS application using Prisma ORM and GraphQL. It follows best practices for modular architecture, performance, and security.
+This project is a **highly scalable, industry-standard full-stack application** using **NestJS (Prisma + GraphQL)** for the backend and **Next.js** for the frontend. It follows best practices for modular architecture, performance, and security.
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="https://nextjs.org/" target="blank"><img src="https://nextjs.org/static/favicon/favicon-32x32.png" width="40" alt="Next.js Logo" /></a>
 </p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This repository provides a **full-stack solution** leveraging:
 
-## Project setup
+- **NestJS** – A progressive Node.js framework for building scalable and maintainable server-side applications.
+- **Prisma** – A next-generation ORM for Node.js and TypeScript, providing type-safe database access with an intuitive API.
+- **GraphQL** – A powerful query language for APIs that enables flexible and efficient data fetching, reducing over-fetching and under-fetching issues.
+- **Next.js** – A modern React framework with server-side rendering (SSR) and static site generation (SSG) for optimized performance.
+- **TypeScript** – Ensures type safety, maintainability, and better developer experience.
+
+## Project Setup
+
+Clone the repository:
+
+````bash
+$ git clone https://github.com/yourusername/NestJS-Prisma-GraphQL-Next.js.git
+$ cd NestJS-Prisma-GraphQL-Next.js
+
+#### Configure Environment Variables
+
+Copy the example environment file and update it:
 
 ```bash
+$ cp .env.example .env
+````
+
+#### Start the Backend
+
+```bash
+# development mode
+$ cd ../backend_NestJS
 $ pnpm install
-```
-
-## Compile and run the project
-
-```bash
-# development
 $ pnpm run start
 
 # watch mode
@@ -49,53 +48,54 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
-## Run tests
+### Frontend Setup (Next.js)
+
+Navigate to the frontend directory:
 
 ```bash
-# unit tests
-$ pnpm run test
+$ cd ../frontend_Next
+$ pnpm install
 
-# e2e tests
-$ pnpm run test:e2e
+# development mode
+$ pnpm run dev
 
-# test coverage
-$ pnpm run test:cov
+# production mode
+$ pnpm run build && pnpm run start
+```
+
+## Folder Structure
+
+```
+/NestJS-Prisma-GraphQL-Next.js
+  ├── backend_NestJS/    # NestJS API with Prisma & GraphQL
+  ├── frontend_Next.js/   # Next.js Frontend
+  ├── CODE_OF_CONDUCT.md
+  ├── README.md
+  ├── LICENSE
+  ├── SECURITY.md
 ```
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Backend Deployment
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Refer to [NestJS Deployment Guide](https://docs.nestjs.com/deployment) for best practices.
 
-```bash
-$ pnpm install -g mau
-$ mau deploy
-```
+### Frontend Deployment
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Refer to [Vercel](https://vercel.com) or [Next.js Deployment Docs](https://nextjs.org/docs/deployment).
 
 ## Resources
 
-Check out a few resources that may come in handy when working with NestJS:
+- [NestJS Documentation](https://docs.nestjs.com)
+- [Prisma Documentation](https://www.prisma.io/docs/)
+- [GraphQL Documentation](https://graphql.org/learn/)
+- [Next.js Documentation](https://nextjs.org/docs)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Contributions
 
-### Contributions:
+We welcome contributions! Feel free to open issues or submit pull requests to enhance this project.
 
-We welcome contributions! Feel free to open issues or submit pull requests to enhance this template.
-
-## Security
-
-Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
-
-### License:
+## License
 
 This project is provided under MIT. See the [LICENSE](LICENSE) file for details.
