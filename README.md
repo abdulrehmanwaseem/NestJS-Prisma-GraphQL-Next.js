@@ -4,7 +4,7 @@ This project is a **highly scalable, industry-standard full-stack application** 
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-  <a href="https://nextjs.org/" target="blank"><img src="https://nextjs.org/static/favicon/favicon-32x32.png" width="40" alt="Next.js Logo" /></a>
+  <a href="https://nextjs.org/" target="blank"><img src="https://nextjs.org/static/favicon/favicon-32x32.png" width="120" alt="Next.js Logo" /></a>
 </p>
 
 ## Description
