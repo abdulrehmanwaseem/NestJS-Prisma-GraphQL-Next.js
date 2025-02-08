@@ -6,7 +6,11 @@ import * as winston from 'winston';
 export class LoggerMiddleware implements NestMiddleware {
   private logger = winston.createLogger({
     level: 'info',
-    format: winston.format.combine(winston.format.timestamp()),
+    format: winston.format.combine(
+      winston.format.timestamp(),
+
+      winston.format.json(), // Ensure JSON format
+    ),
     transports: [
       new winston.transports.Console(),
       new winston.transports.File({ filename: 'logs/app.log' }),
@@ -14,6 +18,8 @@ export class LoggerMiddleware implements NestMiddleware {
   });
 
   use(req: Request, res: Response, next: NextFunction) {
+    console.log('🟢 LoggerMiddleware Executing...');
+
     const logData: Record<string, any> = {
       method: req.method,
       url: req.originalUrl,
@@ -27,9 +33,9 @@ export class LoggerMiddleware implements NestMiddleware {
 
     if (Object.keys(req.params).length) logData.params = req.params;
     if (Object.keys(req.query).length) logData.query = req.query;
-    if (req.user) logData.user = req.user;
 
     this.logger.info(logData);
+
     next();
   }
 }
