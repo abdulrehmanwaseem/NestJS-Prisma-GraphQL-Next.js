@@ -3,21 +3,21 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <div className="relative overflow-hidden rounded-3xl">
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/90 to-indigo-600/90 mix-blend-multiply" />
+    <div className="relative overflow-hidden rounded-3xl mt-2">
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/90 to-indigo-600/90 mix-blend-multiply " />
       <img
         src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
         alt="Hero background"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="relative px-8 py-24 sm:px-16 sm:py-32">
+      <div className="relative px-8 py-24  sm:px-16 sm:py-32">
         <div className="max-w-3xl">
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
             Share Your Stories,
             <br />
             Connect with the World
           </h1>
-          <p className="text-lg sm:text-xl text-purple-100 mb-8 max-w-2xl">
+          <p className="text-lg sm:text-xl text-purple-50 mb-8 max-w-2xl">
             Join our community of writers, thinkers, and creators. Share your
             unique perspective and connect with readers from around the globe.
           </p>

@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function Profile() {
   return (
-    <div className="max-w-4xl mx-auto animate-fadeIn pt-20 px-4 mb-20">
+    <div className="max-w-4xl mx-auto animate-fadeIn pt-20 px-4 mb-4">
       {/* Cover Image */}
       <div className="relative h-64 rounded-xl overflow-hidden mb-10 bg-gradient-to-r from-purple-600 to-indigo-600">
         <img
@@ -88,7 +88,7 @@ export default function Profile() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-3 gap-4">
             {[
               { label: "Posts", value: "24" },
               { label: "Followers", value: "2.4k" },
@@ -117,7 +117,7 @@ export default function Profile() {
                 className="bg-gray-800 rounded-xl shadow-lg overflow-hidden"
               >
                 <img
-                  src={`https://source.unsplash.com/random/400x200?sig=${i}`}
+                  src="https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
                   alt="Post cover"
                   className="w-full h-48 object-cover"
                 />

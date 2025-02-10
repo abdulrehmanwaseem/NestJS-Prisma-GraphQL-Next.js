@@ -32,7 +32,7 @@ export default function EditProfile() {
 
   return (
     <>
-      <div className="max-w-2xl mx-auto bg-gray-800 rounded-2xl p-8 shadow-xl mt-20">
+      <div className="max-w-2xl mx-auto bg-gray-800 rounded-2xl p-8 shadow-xl mt-20 mb-4">
         <h2 className="text-3xl font-bold text-white mb-8">Edit Profile</h2>
 
         <form onSubmit={handleSubmit} className="space-y-8">

@@ -3,7 +3,7 @@ import PostCard from "@/components/PostCard";
 
 export default function Home() {
   return (
-    <main className="container px-4 py-20 mx-auto">
+    <main className="container px-10 py-20 mx-auto">
       <Hero />
       <div className="mt-12">
         <div className="flex flex-wrap justify-center gap-2 mb-8">

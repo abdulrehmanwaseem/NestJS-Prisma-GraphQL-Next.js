@@ -83,7 +83,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full px-4 py-3 rounded-lg gradient-blue text-white font-medium hover:opacity-90 transition-all transform hover:scale-[1.02] flex items-center justify-center group"
+            className="w-full px-4 py-3 rounded-lg gradient-blue bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-medium hover:opacity-90 transition-all transform hover:scale-[1.02] flex items-center justify-center group"
           >
             Sign in
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

@@ -6,7 +6,7 @@ import { Bell, PenSquare, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [notifications, setNotifications] = useState(3);
   const pathname = usePathname();
 
@@ -17,14 +17,15 @@ export default function Navbar() {
     href: string;
     children: ReactNode;
   }) => {
-    const isActive = pathname === href;
+    const isActive =
+      pathname === href || (href !== "/" && pathname.startsWith(href));
     return (
       <Link
         href={href}
-        className={`px-4 py-2 rounded-full transition-colors ${
+        className={`px-4 py-2 rounded-full transition-colors text-purple-100 ${
           isActive
-            ? "bg-primary/10 text-primary font-medium"
-            : "text-gray-300 hover:text-white hover:bg-gray-800"
+            ? "bg-purple-900 text-purple-200 font-semibold"
+            : " hover:text-white hover:bg-gray-800"
         }`}
       >
         {children}
@@ -34,7 +35,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-700">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-10">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-8">
             <Link
@@ -99,7 +100,7 @@ export default function Navbar() {
                       Profile
                     </Link>
                     <Link
-                      href="/edit-profile"
+                      href="/profile/edit-profile"
                       className="flex items-center gap-2 px-4 py-2 hover:bg-gray-700 text-gray-200"
                     >
                       Edit Profile
