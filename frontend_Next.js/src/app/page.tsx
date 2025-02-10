@@ -3,10 +3,10 @@ import PostCard from "@/components/PostCard";
 
 export default function Home() {
   return (
-    <main className="container px-4 py-8 pt-20 mx-auto">
+    <main className="container px-4 py-20 mx-auto">
       <Hero />
       <div className="mt-12">
-        <div className="justify-center mb-8 tabs tabs-boxed">
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
           {[
             "All",
             "Technology",
@@ -17,13 +17,16 @@ export default function Home() {
             "Programming",
             "Career",
           ].map((tag) => (
-            <a key={tag} className="tab">
+            <button
+              key={tag}
+              className="px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:bg-purple-900 hover:text-purple-300 transition-colors"
+            >
               {tag}
-            </a>
+            </button>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <PostCard key={i} />
           ))}

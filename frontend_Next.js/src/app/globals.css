@@ -3,31 +3,40 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+  --background: 15 23 42;
+  --foreground: 255 255 255;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --primary: 94 63 235;
+  --primary-foreground: 255 255 255;
+
+  --secondary: 99 102 241;
+  --secondary-foreground: 255 255 255;
+
+  --muted: 51 65 85;
+  --muted-foreground: 148 163 184;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom right, rgb(15 23 42), rgb(30 41 59));
+  min-height: 100vh;
 }
 
-.gradient-blue {
-  background: linear-gradient(to right, #3b82f6, #2563eb);
+.gradient-primary {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--primary)),
+    rgb(var(--secondary))
+  );
+}
+
+.gradient-hover {
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  transition: background-position 0.3s ease;
+}
+
+.gradient-hover:hover {
+  background-position: 100% 100%;
 }
 
 @keyframes fadeIn {

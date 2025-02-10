@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import React from "react";
+import type React from "react"; // Added import for React
 
 const inter = Inter({ subsets: ["latin"] });
 
