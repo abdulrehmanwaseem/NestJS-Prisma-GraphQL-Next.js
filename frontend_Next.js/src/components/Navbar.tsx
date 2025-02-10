@@ -1,172 +1,188 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import Link from "next/link";
-import { Bell, Menu, Moon, PenSquare, Search, Sun, X } from "lucide-react";
+import { Bell, Moon, PenSquare, Search, Sun } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [notifications, setNotifications] = useState(3);
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        setTheme("dark");
+        document.documentElement.classList.add("dark");
+      } else {
+        setTheme("light");
+        document.documentElement.classList.remove("dark");
+      }
+    }
+  }, []);
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    document.documentElement.setAttribute("data-theme", newTheme);
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
+
+  const NavLink = ({
+    href,
+    children,
+  }: {
+    href: string;
+    children: ReactNode;
+  }) => {
+    const isActive = pathname === href;
+    return (
+      <Link
+        href={href}
+        className={`px-4 py-2 rounded-full transition-colors ${
+          isActive
+            ? "bg-primary/10 text-primary font-medium"
+            : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:hover:text-gray-300 dark:hover:bg-gray-800"
+        }`}
+      >
+        {children}
+      </Link>
+    );
   };
 
   return (
-    <div className="fixed top-0 z-50 shadow-lg navbar bg-base-100 w-full">
-      <div className="flex-none">
-        {isAuthenticated && (
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="btn btn-ghost btn-circle lg:hidden"
-          >
-            {isSidebarOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-        )}
-      </div>
-      <div className="flex-1">
-        <Link
-          href="/"
-          className="ml-2 text-2xl font-bold transition-opacity cursor-pointer text-primary hover:opacity-80"
-        >
-          BlogSpace
-        </Link>
-      </div>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-700">
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex items-center gap-8">
+            <Link
+              href="/"
+              className="text-2xl font-bold gradient-primary bg-clip-text text-transparent"
+            >
+              BlogSpace
+            </Link>
 
-      {isAuthenticated ? (
-        <div className="flex-none gap-2">
-          <div className="hidden form-control lg:block">
-            <div className="input-group">
-              <input
-                type="text"
-                placeholder="Search posts..."
-                className="w-64 input input-bordered"
-              />
-              <button className="btn btn-square btn-primary">
-                <Search className="w-5 h-5" />
-              </button>
-            </div>
+            {isAuthenticated && (
+              <div className="hidden md:flex items-center gap-2">
+                <NavLink href="/">Home</NavLink>
+                <NavLink href="/explore">Explore</NavLink>
+                <NavLink href="/bookmarks">Bookmarks</NavLink>
+              </div>
+            )}
           </div>
 
-          <button onClick={toggleTheme} className="btn btn-ghost btn-circle">
-            {theme === "light" ? (
-              <Moon className="w-5 h-5" />
-            ) : (
-              <Sun className="w-5 h-5" />
-            )}
-          </button>
-
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle"
-            >
-              <div className="indicator">
-                <Bell className="w-5 h-5" />
-                {notifications > 0 && (
-                  <span className="badge badge-sm badge-primary indicator-item">
-                    {notifications}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div
-              tabIndex={0}
-              className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
-            >
-              <div className="card-body">
-                <span className="text-lg font-bold">8 New Notifications</span>
-                <span className="text-info">View all notifications</span>
-                <div className="card-actions">
-                  <button className="btn btn-primary btn-block">
-                    View all
-                  </button>
+          <div className="flex items-center gap-4">
+            {isAuthenticated ? (
+              <>
+                <div className="hidden lg:block">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-300" />
+                    <input
+                      type="search"
+                      placeholder="Search posts..."
+                      className="w-64 rounded-full bg-gray-100 dark:bg-gray-800 pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <Link href="/create-post" className="btn btn-primary btn-sm">
-            <PenSquare className="w-4 h-4" />
-            <span className="hidden ml-2 md:inline">New Post</span>
-          </Link>
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                  aria-label={`Switch to ${
+                    theme === "light" ? "dark" : "light"
+                  } mode`}
+                >
+                  {theme === "light" ? (
+                    <Moon className="h-5 w-5" />
+                  ) : (
+                    <Sun className="h-5 w-5" />
+                  )}
+                </button>
 
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar placeholder"
-            >
-              <div className="w-10 rounded-full bg-neutral text-neutral-content">
-                <span>JD</span>
-              </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <Link href="/profile" className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
+                <button className="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+                  <Bell className="h-5 w-5" />
+                  {notifications > 0 && (
+                    <span className="absolute top-0 right-0 h-5 w-5 rounded-full bg-primary text-xs text-white flex items-center justify-center">
+                      {notifications}
+                    </span>
+                  )}
+                </button>
+
+                <Link
+                  href="/create-post"
+                  className="hidden md:flex items-center gap-2 gradient-primary text-white px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
+                >
+                  <PenSquare className="h-4 w-4" />
+                  <span>Write</span>
                 </Link>
-              </li>
-              <li>
-                <Link href="/edit-profile">Edit Profile</Link>
-              </li>
-              <li>
-                <details>
-                  <summary>Settings</summary>
-                  <ul>
-                    <li>
-                      <a>Account</a>
-                    </li>
-                    <li>
-                      <a>Security</a>
-                    </li>
-                    <li>
-                      <a>Notifications</a>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-              <li>
-                <a onClick={() => setIsAuthenticated(false)}>Logout</a>
-              </li>
-            </ul>
+
+                <div className="relative group">
+                  <button className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div className="h-8 w-8 rounded-full gradient-primary text-white flex items-center justify-center text-sm font-medium">
+                      JD
+                    </div>
+                  </button>
+
+                  <div className="absolute right-0 top-full mt-2 w-48 py-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                    <Link
+                      href="/profile"
+                      className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+                    >
+                      Profile
+                    </Link>
+                    <Link
+                      href="/edit-profile"
+                      className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+                    >
+                      Edit Profile
+                    </Link>
+                    <hr className="my-2 border-gray-200 dark:border-gray-700" />
+                    <button
+                      onClick={() => setIsAuthenticated(false)}
+                      className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                  aria-label={`Switch to ${
+                    theme === "light" ? "dark" : "light"
+                  } mode`}
+                >
+                  {theme === "light" ? (
+                    <Moon className="h-5 w-5" />
+                  ) : (
+                    <Sun className="h-5 w-5" />
+                  )}
+                </button>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="px-4 py-2 rounded-full gradient-primary gradient-hover text-white transition-all"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
         </div>
-      ) : (
-        <div className="flex-none">
-          <button
-            onClick={toggleTheme}
-            className="mr-2 btn btn-ghost btn-circle"
-          >
-            {theme === "light" ? (
-              <Moon className="w-5 h-5" />
-            ) : (
-              <Sun className="w-5 h-5" />
-            )}
-          </button>
-          <Link href="/login" className="btn btn-ghost">
-            Login
-          </Link>
-          <Link href="/signup" className="ml-2 btn btn-primary">
-            Sign Up
-          </Link>
-        </div>
-      )}
-    </div>
+      </div>
+    </nav>
   );
 }
