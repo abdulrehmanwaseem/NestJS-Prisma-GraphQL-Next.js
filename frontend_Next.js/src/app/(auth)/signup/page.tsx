@@ -4,17 +4,23 @@ import { useState } from "react";
 import { User, Mail, Lock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSignUpMutation } from "@/graphql/mutations/auth.query.generated";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const [signUp, { isLoading, error }] = useSignUpMutation();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign up logic here
-    router.push("/");
+    try {
+      await signUp({ input: { username, email, password } }).unwrap();
+      router.push("/");
+    } catch (err) {
+      console.error("Signup failed:", err);
+    }
   };
 
   return (
@@ -87,11 +93,18 @@ export default function SignUp() {
             </div>
           </div>
 
+          {error && (
+            <p className="text-red-500 text-sm">
+              {(error as any)?.data?.message || "Signup failed"}
+            </p>
+          )}
+
           <button
             type="submit"
-            className="w-full px-4 py-3 rounded-lg gradient-blue text-white bg-gradient-to-r from-purple-500 to-indigo-500 font-medium hover:opacity-90 transition-all transform hover:scale-[1.02] flex items-center justify-center group"
+            className="w-full px-4 py-3 rounded-lg gradient-blue text-white bg-gradient-to-r from-purple-500 to-indigo-500 font-medium hover:opacity-90 transition-all transform hover:scale-[1.02] flex items-center justify-center group disabled:opacity-50"
+            disabled={isLoading}
           >
-            Create Account
+            {isLoading ? "Creating..." : "Create Account"}
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </form>
