@@ -3,9 +3,11 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: graphqlRequestBaseQuery({
-    url: "http://localhost:4000/graphql",
-  }),
+  baseQuery: graphqlRequestBaseQuery<{ document: string; variables?: unknown }>(
+    {
+      url: "http://localhost:4000/graphql",
+    }
+  ),
   tagTypes: [],
   endpoints: () => ({}),
 });
