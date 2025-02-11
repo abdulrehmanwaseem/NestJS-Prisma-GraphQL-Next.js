@@ -32,7 +32,11 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     credentials: true,
-    origin: ['http://localhost:4000', 'http://localhost:5173/'],
+    origin: [
+      'http://localhost:4000',
+      'http://localhost:5173',
+      'http://localhost:3000',
+    ],
   });
   // app.use(doubleCsrfProtection); // ✅ Use for high security
 

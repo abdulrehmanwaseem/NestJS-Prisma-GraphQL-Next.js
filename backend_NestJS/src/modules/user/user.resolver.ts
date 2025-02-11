@@ -19,12 +19,12 @@ import { User } from 'src/entities/user.entity';
 import { JwtUser } from '../auth/types/jwt-user';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserService } from './user.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { Roles } from '@common/decorators/roles.decorator';
 import { Role } from '@common/enums';
 import { RolesGuard } from '@common/guards/roles.guard';
 
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 @Resolver(() => User)
 export class UserResolver {
   constructor(
@@ -35,10 +35,11 @@ export class UserResolver {
 
   private readonly logger = new Logger(UserResolver.name);
 
-  @Roles(Role.ADMIN, Role.USER)
-  @UseGuards(RolesGuard)
+  // @Roles(Role.ADMIN, Role.USER)
+  // @UseGuards(RolesGuard)
   @Query(() => [User])
-  getUsers() {
+  getUsers(@Context('req') req: Request) {
+    console.log(req.cookies);
     return this.userService.findAll();
   }
 

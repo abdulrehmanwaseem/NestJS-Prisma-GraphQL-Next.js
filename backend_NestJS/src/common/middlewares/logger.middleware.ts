@@ -12,7 +12,7 @@ export class LoggerMiddleware implements NestMiddleware {
       winston.format.json(), // Ensure JSON format
     ),
     transports: [
-      new winston.transports.Console(),
+      // new winston.transports.Console(),
       new winston.transports.File({ filename: 'logs/app.log' }),
     ],
   });
