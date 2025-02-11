@@ -1,12 +1,11 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
 import { graphqlRequestBaseQuery } from "@rtk-query/graphql-request-base-query";
+import { createApi } from "@reduxjs/toolkit/query/react";
 
-export const apis = createApi({
-  reducerPath: "apis",
+export const api = createApi({
+  reducerPath: "api",
   baseQuery: graphqlRequestBaseQuery({
     url: "http://localhost:4000/graphql",
   }),
   tagTypes: [],
-  keepUnusedDataFor: 0.01,
   endpoints: () => ({}),
 });

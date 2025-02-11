@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { apis } from "../apis";
+import { api } from "../apis";
 
 export const store = configureStore({
   reducer: {
-    [apis.reducerPath]: apis.reducer,
+    [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(apis.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(api.middleware),
 });
 
 setupListeners(store.dispatch);
