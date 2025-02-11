@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "codegen": "graphql-codegen --config src/graphql/codegen.ts --verbose",
+    "codegen": "graphql-codegen --config src/graphql/codegen.ts --watch 'src/**/*.graphql'",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -27,9 +27,11 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@graphql-codegen/cli": "^5.0.4",
+    "@graphql-codegen/near-operation-file-preset": "^3.0.0",
     "@graphql-codegen/typescript": "^4.1.3",
     "@graphql-codegen/typescript-operations": "^4.4.1",
     "@graphql-codegen/typescript-rtk-query": "^3.1.1",
+    "@parcel/watcher": "^2.5.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
