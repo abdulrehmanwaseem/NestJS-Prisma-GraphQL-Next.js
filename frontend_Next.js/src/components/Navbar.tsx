@@ -4,9 +4,12 @@ import { useState, ReactNode } from "react";
 import Link from "next/link";
 import { Bell, PenSquare, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useGetUsersQuery } from "@/graphql/queries/user.query.generated";
 
 export default function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const { data } = useGetUsersQuery();
+  console.log("Users:", data?.getUsers);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [notifications, setNotifications] = useState(3);
   const pathname = usePathname();
 

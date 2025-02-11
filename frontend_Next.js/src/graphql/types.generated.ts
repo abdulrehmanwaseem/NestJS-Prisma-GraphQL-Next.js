@@ -170,6 +170,13 @@ export type User = {
   username: Scalars['String']['output'];
 };
 
+export type SignUpMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+
+export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'AuthPayload', userId: string, role?: Role | null } };
+
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 

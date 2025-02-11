@@ -8,7 +8,7 @@ export type GetUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename
 
 
 export const GetUsersDocument = `
-    query GetUsers {
+    query getUsers {
   getUsers {
     email
     username
@@ -19,7 +19,7 @@ export const GetUsersDocument = `
 const injectedRtkApi = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
-    GetUsers: build.query<GetUsersQuery, GetUsersQueryVariables | void>({
+    getUsers: build.query<GetUsersQuery, GetUsersQueryVariables | void>({
       query: (variables) => ({ document: GetUsersDocument, variables })
     }),
   }),
