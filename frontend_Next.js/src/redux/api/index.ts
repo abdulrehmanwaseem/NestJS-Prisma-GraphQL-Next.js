@@ -12,11 +12,25 @@ export const api = createApi({
   baseQuery: graphqlRequestBaseQuery({
     client,
     customErrors: ({ name, stack, response }) => {
-      console.log("LOG FROM REDUX API: ", response);
-      const firstPath = response?.errors?.[0]?.path?.[0] ?? "";
-      const path = { path: firstPath };
+      // If no error information is available, then returning a generic error.
+      if (
+        !response ||
+        !Array.isArray(response.errors) ||
+        response.errors.length === 0
+      ) {
+        return {
+          name,
+          message: "Unknown error",
+          statusCode: 500,
+          error: "Unknown",
+          stack: stack || "",
+        };
+      }
 
-      const ext = (response?.errors?.[0]?.extensions.originalError ?? {}) as {
+      const firstError = response.errors[0];
+      const firstPath = firstError?.path?.[0] ?? "";
+
+      const ext = (firstError?.extensions?.originalError ?? {}) as {
         message?: string;
         statusCode?: number;
         error?: string;
@@ -24,7 +38,7 @@ export const api = createApi({
       const { message = "", statusCode = 500, error = "" } = ext;
       return {
         name,
-        path,
+        path: firstPath,
         message,
         statusCode,
         error,
