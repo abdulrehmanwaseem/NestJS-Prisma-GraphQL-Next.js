@@ -11,9 +11,26 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery: graphqlRequestBaseQuery({
     client,
-    // customErrors: (error) => {
-    //   return error?.response?.errors[0];
-    // },
+    customErrors: ({ name, stack, response }) => {
+      console.log("LOG FROM REDUX API: ", response);
+      const firstPath = response?.errors?.[0]?.path?.[0] ?? "";
+      const path = { path: firstPath };
+
+      const ext = (response?.errors?.[0]?.extensions.originalError ?? {}) as {
+        message?: string;
+        statusCode?: number;
+        error?: string;
+      };
+      const { message = "", statusCode = 500, error = "" } = ext;
+      return {
+        name,
+        path,
+        message,
+        statusCode,
+        error,
+        stack,
+      };
+    },
   }),
   refetchOnMountOrArgChange: true,
 
