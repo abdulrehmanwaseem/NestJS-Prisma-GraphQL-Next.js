@@ -18,8 +18,6 @@ export class LoggerMiddleware implements NestMiddleware {
   });
 
   use(req: Request, res: Response, next: NextFunction) {
-    console.log('🟢 LoggerMiddleware Executing...');
-
     const logData: Record<string, any> = {
       method: req.method,
       url: req.originalUrl,
