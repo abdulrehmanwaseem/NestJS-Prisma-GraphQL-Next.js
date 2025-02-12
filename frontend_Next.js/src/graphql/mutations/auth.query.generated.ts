@@ -1,18 +1,13 @@
-import * as Types from "../types.generated";
+import * as Types from '../types.generated';
 
-import { api } from "@/redux/api";
+import { api } from '@/redux/api';
 export type SignUpMutationVariables = Types.Exact<{
   input: Types.CreateUserInput;
 }>;
 
-export type SignUpMutation = {
-  __typename?: "Mutation";
-  signUp: {
-    __typename?: "AuthPayload";
-    userId: string;
-    role?: Types.Role | null;
-  };
-};
+
+export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'AuthPayload', userId: string, role?: Types.Role | null } };
+
 
 export const SignUpDocument = `
     mutation SignUp($input: CreateUserInput!) {
@@ -27,11 +22,11 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
     SignUp: build.mutation<SignUpMutation, SignUpMutationVariables>({
-      query: (variables) => ({ document: SignUpDocument, variables }),
-      invalidatesTags: ["Users"],
+      query: (variables) => ({ document: SignUpDocument, variables })
     }),
   }),
 });
 
 export { injectedRtkApi as api };
 export const { useSignUpMutation } = injectedRtkApi;
+

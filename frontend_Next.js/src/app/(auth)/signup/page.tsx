@@ -19,7 +19,7 @@ export default function SignUp() {
       await signUp({ input: { username, email, password } }).unwrap();
       router.push("/");
     } catch (err) {
-      console.error("Signup failed:", err);
+      console.log("Signup failed:", err);
     }
   };
 
