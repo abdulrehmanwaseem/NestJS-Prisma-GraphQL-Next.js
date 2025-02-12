@@ -4,3 +4,11 @@ mutation SignUp($input: CreateUserInput!) {
     role
   }
 }
+
+mutation SignIn($input: SignInInput!) {
+  signIn(input: $input) {
+    userId
+    role
+    requires2FA
+  }
+}

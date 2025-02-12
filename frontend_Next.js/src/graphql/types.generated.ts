@@ -177,6 +177,13 @@ export type SignUpMutationVariables = Exact<{
 
 export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'AuthPayload', userId: string, role?: Role | null } };
 
+export type SignInMutationVariables = Exact<{
+  input: SignInInput;
+}>;
+
+
+export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'SignInResponse', userId: string, role?: Role | null, requires2FA?: boolean | null } };
+
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
