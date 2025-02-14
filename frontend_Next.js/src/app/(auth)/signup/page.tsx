@@ -5,6 +5,7 @@ import { User, Mail, Lock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSignUpMutation } from "@/graphql/mutations/auth.query.generated";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
@@ -19,6 +20,7 @@ export default function SignUp() {
       await signUp({ input: { username, email, password } }).unwrap();
       router.push("/");
     } catch (err) {
+      toast.error(err.message);
       console.log("Signup failed:", err);
     }
   };
