@@ -23,7 +23,7 @@ export default function Hero() {
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
-              href="/signup"
+              href="/auth/signup"
               className="px-8 py-3 rounded-full bg-white text-purple-600 font-semibold hover:bg-purple-50 transition-all transform hover:scale-105 hover:shadow-lg flex items-center group"
             >
               Get Started
