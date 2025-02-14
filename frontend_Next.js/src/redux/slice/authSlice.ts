@@ -1,7 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { User as GraphQLUser } from "@/graphql/types.generated";
+
+export type AuthUser = Pick<
+  GraphQLUser,
+  "id" | "username" | "email" | "role"
+> & {
+  profile?: Pick<NonNullable<GraphQLUser["profile"]>, "bio" | "avatar"> | null;
+};
 
 interface AuthState {
-  user: { id: string; role: string } | null;
+  user: AuthUser | null;
 }
 
 const initialState: AuthState = {

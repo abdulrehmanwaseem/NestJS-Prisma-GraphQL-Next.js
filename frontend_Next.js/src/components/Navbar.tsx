@@ -4,11 +4,14 @@ import { useState, ReactNode } from "react";
 import Link from "next/link";
 import { Bell, PenSquare, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [notifications, setNotifications] = useState(3);
   const pathname = usePathname();
+  const user = useCurrentUser();
+  console.log(user);
 
   const NavLink = ({
     href,

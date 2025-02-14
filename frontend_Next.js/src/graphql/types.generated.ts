@@ -187,7 +187,7 @@ export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: '
 export type GetProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProfileQuery = { __typename?: 'Query', getProfile: { __typename?: 'User', id: string, role: Role } };
+export type GetProfileQuery = { __typename?: 'Query', getProfile: { __typename?: 'User', id: string, username: string, email: string, role: Role, profile?: { __typename?: 'Profile', bio: string, avatar: string } | null } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
