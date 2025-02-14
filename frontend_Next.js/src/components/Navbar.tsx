@@ -5,13 +5,13 @@ import Link from "next/link";
 import { Bell, PenSquare, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { getInitials } from "@/lib/utils";
+import Image from "next/image";
 
 export default function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, isAuthenticated } = useCurrentUser();
   const [notifications, setNotifications] = useState(3);
   const pathname = usePathname();
-  const user = useCurrentUser();
-  console.log(user);
 
   const NavLink = ({
     href,
@@ -90,8 +90,17 @@ export default function Navbar() {
 
                 <div className="relative group">
                   <button className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-800 transition-colors">
-                    <div className="h-8 w-8 rounded-full gradient-primary text-white flex items-center justify-center text-sm font-medium">
-                      JD
+                    <div className="h-10 w-10 rounded-full gradient-primary text-white flex items-center justify-center text-sm font-medium">
+                      {user?.profile && user.profile.avatar ? (
+                        <Image
+                          src={user.profile.avatar}
+                          alt={user.username}
+                          fill
+                          className="object-cover rounded-full"
+                        />
+                      ) : (
+                        getInitials(user?.username ?? "")
+                      )}
                     </div>
                   </button>
 
@@ -110,7 +119,7 @@ export default function Navbar() {
                     </Link>
                     <hr className="my-2 border-gray-700" />
                     <button
-                      onClick={() => setIsAuthenticated(false)}
+                      // onClick={() => setIsAuthenticated(false)}
                       className="w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700"
                     >
                       Sign Out

@@ -47,3 +47,16 @@ export const parseGraphQLError = (
     stack,
   };
 };
+
+// Helper function to compute initials from a username
+export const getInitials = (username: string): string => {
+  if (!username) return "??";
+  const names = username.split(" ");
+  if (names.length === 1) {
+    return username.slice(0, 2).toUpperCase();
+  }
+  return names
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
+};
