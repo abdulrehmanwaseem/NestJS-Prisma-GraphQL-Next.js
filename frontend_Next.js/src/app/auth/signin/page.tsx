@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSignInMutation } from "@/graphql/mutations/auth.query.generated";
 import { toast } from "react-toastify";
+import { useSignInMutation } from "@/graphql/mutations/auth.mutation.generated";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -15,15 +15,13 @@ export default function SignIn() {
   // Read the callback URL from the query, default to "/"
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  const [signIn, { isLoading, error, isSuccess }] = useSignInMutation();
+  const [signIn, { isLoading, error }] = useSignInMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signIn({ input: { email, password } }).unwrap();
-      if (isSuccess) {
-        router.push(callbackUrl);
-      }
+      router.push(callbackUrl);
     } catch (err) {
       // You can refine this error handling as needed
       toast.error((err as any)?.message || "Sign in failed");

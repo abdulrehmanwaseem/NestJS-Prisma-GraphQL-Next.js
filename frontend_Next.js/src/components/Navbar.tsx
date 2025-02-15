@@ -90,7 +90,7 @@ export default function Navbar() {
 
                 <div className="relative group">
                   <button className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-800 transition-colors">
-                    <div className="h-10 w-10 rounded-full gradient-primary text-white flex items-center justify-center text-sm font-medium">
+                    <div className="h-9 w-9 rounded-full gradient-primary text-white flex items-center justify-center text-sm font-medium">
                       {user?.profile && user.profile.avatar ? (
                         <Image
                           src={user.profile.avatar}

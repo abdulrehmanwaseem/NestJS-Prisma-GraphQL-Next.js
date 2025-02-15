@@ -4,8 +4,8 @@ import { useState } from "react";
 import { User, Mail, Lock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSignUpMutation } from "@/graphql/mutations/auth.query.generated";
 import { toast } from "react-toastify";
+import { useSignUpMutation } from "@/graphql/mutations/auth.mutation.generated";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
@@ -16,15 +16,13 @@ export default function SignUp() {
   const callbackUrl = searchParams.get("callbackUrl") || "/";
   console.log(callbackUrl);
 
-  const [signUp, { isLoading, error, isSuccess }] = useSignUpMutation();
+  const [signUp, { isLoading, error }] = useSignUpMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signUp({ input: { username, email, password } }).unwrap();
-      if (isSuccess) {
-        router.push(callbackUrl);
-      }
+      router.push(callbackUrl);
     } catch (err) {
       toast.error((err as any)?.message || "Sign in failed");
       console.log("Signup failed:", err);

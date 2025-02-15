@@ -12,6 +12,7 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get("user_token")?.value;
   const { nextUrl } = req;
   const pathname = nextUrl.pathname;
+  console.log(token);
 
   // If the route is public and there's no token, allow access.
   if (!token && publicRoutes.includes(pathname)) {
