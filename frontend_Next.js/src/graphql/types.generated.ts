@@ -36,10 +36,10 @@ export type Mutation = {
   createPost: Post;
   deleteUser: Scalars['Boolean']['output'];
   enable2FA: Scalars['String']['output'];
-  logout: Scalars['Boolean']['output'];
   promoteUserToAdmin: Scalars['Boolean']['output'];
   removePost: Post;
   signIn: SignInResponse;
+  signOut: Scalars['Boolean']['output'];
   signUp: AuthPayload;
   updatePost: Post;
   updateUser: User;
@@ -183,6 +183,11 @@ export type SignInMutationVariables = Exact<{
 
 
 export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'SignInResponse', userId: string, role?: Role | null, requires2FA?: boolean | null } };
+
+export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SignOutMutation = { __typename?: 'Mutation', signOut: boolean };
 
 export type GetProfileQueryVariables = Exact<{ [key: string]: never; }>;
 

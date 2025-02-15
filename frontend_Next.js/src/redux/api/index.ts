@@ -17,6 +17,6 @@ export const api = createApi({
   }),
   refetchOnMountOrArgChange: true,
 
-  tagTypes: ["Users"],
+  tagTypes: ["Auth", "Users"],
   endpoints: () => ({}),
 });

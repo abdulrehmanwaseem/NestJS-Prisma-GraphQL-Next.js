@@ -15,6 +15,11 @@ export type SignInMutationVariables = Types.Exact<{
 
 export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'SignInResponse', userId: string, role?: Types.Role | null, requires2FA?: boolean | null } };
 
+export type SignOutMutationVariables = Types.Exact<{ [key: string]: never; }>;
+
+
+export type SignOutMutation = { __typename?: 'Mutation', signOut: boolean };
+
 
 export const SignUpDocument = `
     mutation SignUp($input: CreateUserInput!) {
@@ -33,6 +38,11 @@ export const SignInDocument = `
   }
 }
     `;
+export const SignOutDocument = `
+    mutation SignOut {
+  signOut
+}
+    `;
 
 const injectedRtkApi = api.injectEndpoints({
   overrideExisting: true,
@@ -43,9 +53,12 @@ const injectedRtkApi = api.injectEndpoints({
     SignIn: build.mutation<SignInMutation, SignInMutationVariables>({
       query: (variables) => ({ document: SignInDocument, variables })
     }),
+    SignOut: build.mutation<SignOutMutation, SignOutMutationVariables | void>({
+      query: (variables) => ({ document: SignOutDocument, variables })
+    }),
   }),
 });
 
 export { injectedRtkApi as api };
-export const { useSignUpMutation, useSignInMutation } = injectedRtkApi;
+export const { useSignUpMutation, useSignInMutation, useSignOutMutation } = injectedRtkApi;
 

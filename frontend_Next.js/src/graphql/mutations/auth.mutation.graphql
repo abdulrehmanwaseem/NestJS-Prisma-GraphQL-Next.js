@@ -12,3 +12,7 @@ mutation SignIn($input: SignInInput!) {
     requires2FA
   }
 }
+
+mutation SignOut {
+  signOut
+}
