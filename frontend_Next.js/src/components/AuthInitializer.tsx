@@ -6,12 +6,15 @@ import { setAuthenticated } from "@/redux/slice/authSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-const AuthInitializer = () => {
+interface AuthInitializerProps {
+  children: React.ReactNode;
+}
+const AuthInitializer = ({ children }: AuthInitializerProps) => {
   const dispatch = useDispatch();
   const { data, isSuccess, isLoading, isFetching } = useGetProfileQuery();
 
   useEffect(() => {
-    if (data?.getProfile && isSuccess) {
+    if (isSuccess) {
       dispatch(setAuthenticated({ user: data?.getProfile }));
     }
   }, [isFetching]);
@@ -20,7 +23,7 @@ const AuthInitializer = () => {
     return <Loading />;
   }
 
-  return null;
+  return <>{children}</>;
 };
 
 export default AuthInitializer;

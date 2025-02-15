@@ -27,10 +27,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <LoadingIndicator />
-          <AuthInitializer />
-
-          <Navbar />
-          {children}
+          <AuthInitializer>
+            <Navbar />
+            {children}
+          </AuthInitializer>
         </Providers>
         <ToastContainer />
       </body>
