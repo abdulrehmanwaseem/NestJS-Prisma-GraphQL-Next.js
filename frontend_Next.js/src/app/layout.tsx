@@ -26,11 +26,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <LoadingIndicator />
-          <AuthInitializer>
-            <Navbar />
-            {children}
-          </AuthInitializer>
+          <Navbar />
+          {children}
         </Providers>
         <ToastContainer />
       </body>

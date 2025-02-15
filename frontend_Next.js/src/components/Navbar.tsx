@@ -7,11 +7,28 @@ import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { getInitials } from "@/lib/utils";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { signOut } from "@/redux/slice/authSlice";
+import { useSignOutMutation } from "@/graphql/mutations/auth.mutation.generated";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+  const [signOutMutation] = useSignOutMutation();
   const { user, isAuthenticated } = useCurrentUser();
+
   const [notifications, setNotifications] = useState(3);
   const pathname = usePathname();
+
+  const signOutHandler = async () => {
+    try {
+      const { data } = await signOutMutation();
+      if (data?.signOut) {
+        dispatch(signOut());
+      }
+    } catch (error) {
+      console.log("ERROR While signing out", error);
+    }
+  };
 
   const NavLink = ({
     href,
@@ -119,7 +136,7 @@ export default function Navbar() {
                     </Link>
                     <hr className="my-2 border-gray-700" />
                     <button
-                      // onClick={() => setIsAuthenticated(false)}
+                      onClick={signOutHandler}
                       className="w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700"
                     >
                       Sign Out

@@ -26,10 +26,10 @@ export const authSlice = createSlice({
     ) => {
       state.user = action.payload.user;
     },
-    logout: (state) => {
-      state.user;
+    signOut: (state) => {
+      state.user = null;
     },
   },
 });
 
-export const { setAuthenticated, logout } = authSlice.actions;
+export const { setAuthenticated, signOut } = authSlice.actions;
