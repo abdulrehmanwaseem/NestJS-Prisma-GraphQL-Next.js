@@ -1,25 +1,36 @@
-import * as Types from '../types.generated';
+import * as Types from "../types.generated";
 
-import { api } from '@/redux/api';
+import { api } from "@/redux/api";
 export type SignUpMutationVariables = Types.Exact<{
   input: Types.CreateUserInput;
 }>;
 
-
-export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'AuthPayload', userId: string, role?: Types.Role | null } };
+export type SignUpMutation = {
+  __typename?: "Mutation";
+  signUp: {
+    __typename?: "AuthPayload";
+    userId: string;
+    role?: Types.Role | null;
+  };
+};
 
 export type SignInMutationVariables = Types.Exact<{
   input: Types.SignInInput;
 }>;
 
+export type SignInMutation = {
+  __typename?: "Mutation";
+  signIn: {
+    __typename?: "SignInResponse";
+    userId: string;
+    role?: Types.Role | null;
+    requires2FA?: boolean | null;
+  };
+};
 
-export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'SignInResponse', userId: string, role?: Types.Role | null, requires2FA?: boolean | null } };
+export type SignOutMutationVariables = Types.Exact<{ [key: string]: never }>;
 
-export type SignOutMutationVariables = Types.Exact<{ [key: string]: never; }>;
-
-
-export type SignOutMutation = { __typename?: 'Mutation', signOut: boolean };
-
+export type SignOutMutation = { __typename?: "Mutation"; signOut: boolean };
 
 export const SignUpDocument = `
     mutation SignUp($input: CreateUserInput!) {
@@ -48,17 +59,19 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
     SignUp: build.mutation<SignUpMutation, SignUpMutationVariables>({
-      query: (variables) => ({ document: SignUpDocument, variables })
+      query: (variables) => ({ document: SignUpDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
     SignIn: build.mutation<SignInMutation, SignInMutationVariables>({
-      query: (variables) => ({ document: SignInDocument, variables })
+      query: (variables) => ({ document: SignInDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
     SignOut: build.mutation<SignOutMutation, SignOutMutationVariables | void>({
-      query: (variables) => ({ document: SignOutDocument, variables })
+      query: (variables) => ({ document: SignOutDocument, variables }),
     }),
   }),
 });
 
 export { injectedRtkApi as api };
-export const { useSignUpMutation, useSignInMutation, useSignOutMutation } = injectedRtkApi;
-
+export const { useSignUpMutation, useSignInMutation, useSignOutMutation } =
+  injectedRtkApi;
