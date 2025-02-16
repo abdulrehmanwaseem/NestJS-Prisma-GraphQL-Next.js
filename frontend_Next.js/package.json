@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "codegen": "graphql-codegen --config src/graphql/codegen.ts --watch 'src/**/*.graphql' --verbose",
-    "dev": "next dev",
+    "clean": "rimraf .next",
+    "dev": "rimraf .next && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -24,6 +25,7 @@
     "react-error-boundary": "^5.0.0",
     "react-redux": "^9.2.0",
     "react-toastify": "^11.0.3",
+    "rimraf": "^6.0.1",
     "tailwind-merge": "^3.0.1",
     "zod": "^3.24.1"
   },
