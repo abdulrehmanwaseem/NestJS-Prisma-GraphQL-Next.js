@@ -1,14 +1,18 @@
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
   return (
     <div className="relative overflow-hidden rounded-3xl mt-2">
       <div className="absolute inset-0 bg-gradient-to-r from-purple-600/90 to-indigo-600/90 mix-blend-multiply " />
-      <img
+      <Image
         src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
         alt="Hero background"
-        className="absolute inset-0 w-full h-full object-cover"
+        layout="fill"
+        fetchPriority="high"
+        objectFit="cover"
+        priority
       />
       <div className="relative px-8 py-24  sm:px-16 sm:py-32">
         <div className="max-w-3xl">

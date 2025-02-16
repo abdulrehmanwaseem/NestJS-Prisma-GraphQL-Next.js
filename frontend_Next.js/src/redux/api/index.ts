@@ -15,6 +15,7 @@ export const api = createApi({
       return parseGraphQLError(name, stack, response);
     },
   }),
+  keepUnusedDataFor: 0.01,
   refetchOnMountOrArgChange: true,
 
   tagTypes: ["Auth", "Users"],

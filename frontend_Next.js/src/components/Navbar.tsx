@@ -114,6 +114,7 @@ export default function Navbar() {
                           alt={user.username}
                           fill
                           className="object-cover rounded-full"
+                          fetchPriority="high"
                         />
                       ) : (
                         getInitials(user?.username ?? "")
