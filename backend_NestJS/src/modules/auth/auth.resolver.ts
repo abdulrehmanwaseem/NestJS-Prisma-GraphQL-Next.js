@@ -22,9 +22,14 @@ export class AuthResolver {
     private readonly configService: ConfigService,
   ) {}
 
+  private delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   @UseGuards(AuthGuard)
   @Query(() => User)
-  getProfile(@CurrentUser() user: JwtUser) {
+  async getProfile(@CurrentUser() user: JwtUser) {
+    await this.delay(300);
     return this.userService.findOne(user.userId);
   }
 
@@ -59,7 +64,7 @@ export class AuthResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => Boolean)
-  logout(@Context('res') res: Response) {
+  async signOut(@Context('res') res: Response) {
     clearAuthCookie(res, this.configService);
     return true;
   }

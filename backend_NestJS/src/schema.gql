@@ -62,7 +62,7 @@ type Mutation {
   signIn(input: SignInInput!): SignInResponse!
   enable2FA: String!
   verify2FALogin(userId: String!, token: String!): AuthPayload!
-  logout: Boolean!
+  signOut: Boolean!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser: Boolean!
   promoteUserToAdmin(id: String!): Boolean!
@@ -84,7 +84,6 @@ input SignInInput {
 
 input UpdateUserInput {
   username: String
-  email: String
   password: String
 }
 
