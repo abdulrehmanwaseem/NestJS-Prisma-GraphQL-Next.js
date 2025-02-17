@@ -1,5 +1,7 @@
 "use client";
 
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { getInitials } from "@/lib/utils";
 import {
   Camera,
   MapPin,
@@ -9,9 +11,11 @@ import {
   Edit2,
   Heart,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Profile() {
+  const { user } = useCurrentUser();
   return (
     <div className="max-w-4xl mx-auto animate-fadeIn pt-20 px-4 mb-4">
       {/* Cover Image */}
@@ -29,7 +33,17 @@ export default function Profile() {
         <div className="absolute bottom-4 left-4">
           <div className="relative">
             <div className="h-28 w-28 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center text-white text-3xl font-bold">
-              JD
+              {user?.profile && user.profile.avatar ? (
+                <Image
+                  src={user.profile.avatar}
+                  alt={user.username}
+                  fill
+                  className="object-cover rounded-full"
+                  fetchPriority="high"
+                />
+              ) : (
+                getInitials(user?.username || "")
+              )}
             </div>
             <button className="absolute bottom-0 right-0 p-1.5 bg-white/20 hover:bg-white/30 rounded-full transition-colors">
               <Edit2 className="h-4 w-4 text-white" />
@@ -43,7 +57,9 @@ export default function Profile() {
         <div className="bg-gray-800 shadow-lg rounded-xl p-6">
           <div className="flex justify-between items-start mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">John Doe</h1>
+              <h1 className="text-3xl font-bold text-white mb-2">
+                {user?.username}
+              </h1>
               <div className="flex items-center space-x-4 text-gray-300">
                 <div className="flex items-center space-x-1">
                   <MapPin className="h-4 w-4" />
@@ -54,7 +70,7 @@ export default function Profile() {
                   className="flex items-center space-x-1 text-indigo-400 hover:text-indigo-300"
                 >
                   <LinkIcon className="h-4 w-4" />
-                  <span>johndoe.dev</span>
+                  <span>{user?.email}</span>
                 </a>
               </div>
             </div>
@@ -67,9 +83,7 @@ export default function Profile() {
           </div>
 
           <p className="text-gray-300 mb-6 max-w-2xl">
-            Full-stack developer passionate about creating beautiful and
-            functional web applications. Love to explore new technologies and
-            share knowledge with the community.
+            {user?.profile?.bio || "No bio found"}
           </p>
 
           <div className="flex space-x-4 mb-8">
