@@ -101,6 +101,7 @@ const injectedRtkApi = api.injectEndpoints({
       Disable2FaMutationVariables | void
     >({
       query: (variables) => ({ document: Disable2FaDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
   }),
 });
