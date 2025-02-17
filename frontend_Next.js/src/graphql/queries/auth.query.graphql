@@ -8,5 +8,6 @@ query GetProfile {
       bio
       avatar
     }
+    isTwoFAEnabled
   }
 }

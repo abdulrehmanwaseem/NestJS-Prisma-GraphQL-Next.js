@@ -81,9 +81,11 @@ const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     SignUp: build.mutation<SignUpMutation, SignUpMutationVariables>({
       query: (variables) => ({ document: SignUpDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
     SignIn: build.mutation<SignInMutation, SignInMutationVariables>({
       query: (variables) => ({ document: SignInDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
     SignOut: build.mutation<SignOutMutation, SignOutMutationVariables | void>({
       query: (variables) => ({ document: SignOutDocument, variables }),

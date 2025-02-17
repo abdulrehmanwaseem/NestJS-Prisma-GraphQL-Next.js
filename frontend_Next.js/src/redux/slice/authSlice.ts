@@ -3,7 +3,7 @@ import type { User as GraphQLUser } from "@/graphql/types.generated";
 
 export type AuthUser = Pick<
   GraphQLUser,
-  "id" | "username" | "email" | "role"
+  "id" | "username" | "email" | "role" | "isTwoFAEnabled"
 > & {
   profile?: Pick<NonNullable<GraphQLUser["profile"]>, "bio" | "avatar"> | null;
 };
