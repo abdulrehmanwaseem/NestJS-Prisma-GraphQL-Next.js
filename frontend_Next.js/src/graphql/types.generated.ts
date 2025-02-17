@@ -35,6 +35,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createPost: Post;
   deleteUser: Scalars['Boolean']['output'];
+  disable2FA: Scalars['Boolean']['output'];
   enable2FA: Scalars['String']['output'];
   promoteUserToAdmin: Scalars['Boolean']['output'];
   removePost: Post;
@@ -154,7 +155,6 @@ export type UpdatePostInput = {
 };
 
 export type UpdateUserInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -188,6 +188,23 @@ export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SignOutMutation = { __typename?: 'Mutation', signOut: boolean };
+
+export type Enable2FaMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Enable2FaMutation = { __typename?: 'Mutation', enable2FA: string };
+
+export type Disable2FaMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Disable2FaMutation = { __typename?: 'Mutation', disable2FA: boolean };
+
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', username: string, email: string } };
 
 export type GetProfileQueryVariables = Exact<{ [key: string]: never; }>;
 

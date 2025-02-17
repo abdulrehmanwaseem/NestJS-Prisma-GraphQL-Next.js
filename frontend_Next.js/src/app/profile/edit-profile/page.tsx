@@ -4,21 +4,32 @@ import { useState } from "react";
 import { Camera, Mail, User, Lock, Shield } from "lucide-react";
 import { useRouter } from "next/navigation";
 import TwoFactorModal from "@/components/TwoFactorModal";
+import { useUpdateUserMutation } from "@/graphql/mutations/user.mutation.generated";
 
 const QR_CODE_DATA =
   "data:image/png;base64,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";
 export default function EditProfile() {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isTwoFAEnabled, setIsTwoFAEnabled] = useState(false);
   const [showTwoFAModal, setShowTwoFAModal] = useState(false);
   const router = useRouter();
+  const [updateUser] = useUpdateUserMutation();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle profile update logic here
-    router.push("/profile");
+    try {
+      const payload: Record<string, any> = { username };
+
+      if (password.trim()) {
+        payload.password = password;
+      }
+
+      await updateUser({ input: payload }).unwrap();
+      router.push("/profile");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleTwoFAToggle = () => {
@@ -66,26 +77,6 @@ export default function EditProfile() {
                   placeholder="Enter username"
                 />
                 <User className="absolute right-3 top-3 h-5 w-5 text-gray-400" />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-300 mb-2"
-              >
-                Email
-              </label>
-              <div className="relative">
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 transition-all"
-                  placeholder="Enter email"
-                />
-                <Mail className="absolute right-3 top-3 h-5 w-5 text-gray-400" />
               </div>
             </div>
 

@@ -16,3 +16,11 @@ mutation SignIn($input: SignInInput!) {
 mutation SignOut {
   signOut
 }
+
+mutation Enable2FA {
+  enable2FA
+}
+
+mutation Disable2FA {
+  disable2FA
+}
