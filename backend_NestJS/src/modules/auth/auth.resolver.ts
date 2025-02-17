@@ -53,6 +53,12 @@ export class AuthResolver {
     return this.authService.generate2FA(user.userId);
   }
 
+  @UseGuards(AuthGuard)
+  @Mutation(() => Boolean)
+  disable2FA(@CurrentUser() user: JwtUser) {
+    return this.authService.disable2FAOption(user.userId);
+  }
+
   @Mutation(() => AuthPayload)
   verify2FALogin(
     @Args('userId') userId: string,

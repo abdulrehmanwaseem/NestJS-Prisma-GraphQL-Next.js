@@ -114,6 +114,18 @@ export class AuthService {
     return qrcode.toDataURL(secret.otpauth_url);
   }
 
+  async disable2FAOption(userId: string): Promise<boolean> {
+    const result = await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        isTwoFAEnabled: false,
+        twoFASecret: null,
+      },
+    });
+
+    return result ? true : false;
+  }
+
   async validate2FA(userId: string, token: string): Promise<boolean> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
