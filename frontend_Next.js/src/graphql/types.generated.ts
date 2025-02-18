@@ -199,6 +199,14 @@ export type Disable2FaMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type Disable2FaMutation = { __typename?: 'Mutation', disable2FA: boolean };
 
+export type Verify2FaLoginMutationVariables = Exact<{
+  userId: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+}>;
+
+
+export type Verify2FaLoginMutation = { __typename?: 'Mutation', verify2FALogin: { __typename?: 'AuthPayload', userId: string, role?: Role | null } };
+
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;

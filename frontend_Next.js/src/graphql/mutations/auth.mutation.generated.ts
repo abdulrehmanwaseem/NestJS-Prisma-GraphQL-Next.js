@@ -43,6 +43,20 @@ export type Disable2FaMutation = {
   disable2FA: boolean;
 };
 
+export type Verify2FaLoginMutationVariables = Types.Exact<{
+  userId: Types.Scalars["String"]["input"];
+  token: Types.Scalars["String"]["input"];
+}>;
+
+export type Verify2FaLoginMutation = {
+  __typename?: "Mutation";
+  verify2FALogin: {
+    __typename?: "AuthPayload";
+    userId: string;
+    role?: Types.Role | null;
+  };
+};
+
 export const SignUpDocument = `
     mutation SignUp($input: CreateUserInput!) {
   signUp(input: $input) {
@@ -75,17 +89,23 @@ export const Disable2FaDocument = `
   disable2FA
 }
     `;
+export const Verify2FaLoginDocument = `
+    mutation Verify2FALogin($userId: String!, $token: String!) {
+  verify2FALogin(userId: $userId, token: $token) {
+    userId
+    role
+  }
+}
+    `;
 
 const injectedRtkApi = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (build) => ({
     SignUp: build.mutation<SignUpMutation, SignUpMutationVariables>({
       query: (variables) => ({ document: SignUpDocument, variables }),
-      invalidatesTags: ["Auth"],
     }),
     SignIn: build.mutation<SignInMutation, SignInMutationVariables>({
       query: (variables) => ({ document: SignInDocument, variables }),
-      invalidatesTags: ["Auth"],
     }),
     SignOut: build.mutation<SignOutMutation, SignOutMutationVariables | void>({
       query: (variables) => ({ document: SignOutDocument, variables }),
@@ -101,7 +121,12 @@ const injectedRtkApi = api.injectEndpoints({
       Disable2FaMutationVariables | void
     >({
       query: (variables) => ({ document: Disable2FaDocument, variables }),
-      invalidatesTags: ["Auth"],
+    }),
+    Verify2FALogin: build.mutation<
+      Verify2FaLoginMutation,
+      Verify2FaLoginMutationVariables
+    >({
+      query: (variables) => ({ document: Verify2FaLoginDocument, variables }),
     }),
   }),
 });
@@ -113,4 +138,5 @@ export const {
   useSignOutMutation,
   useEnable2FAMutation,
   useDisable2FAMutation,
+  useVerify2FALoginMutation,
 } = injectedRtkApi;

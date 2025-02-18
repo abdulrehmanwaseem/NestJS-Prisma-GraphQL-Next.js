@@ -12,6 +12,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
+
   // Read the callback URL from the query, default to "/"
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
@@ -20,8 +21,16 @@ export default function SignIn() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signIn({ input: { email, password } }).unwrap();
-      router.push(callbackUrl);
+      const res = await signIn({
+        input: { email, password },
+      }).unwrap();
+
+      if (res?.signIn?.requires2FA) {
+        localStorage.setItem("userIdFor2FA", res?.signIn?.userId);
+        router.push("/auth/verify-2fa");
+      } else {
+        router.push(callbackUrl);
+      }
     } catch (err) {
       // You can refine this error handling as needed
       toast.error((err as any)?.message || "Sign in failed");

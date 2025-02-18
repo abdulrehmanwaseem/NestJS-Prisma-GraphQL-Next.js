@@ -24,3 +24,10 @@ mutation Enable2FA {
 mutation Disable2FA {
   disable2FA
 }
+
+mutation Verify2FALogin($userId: String!, $token: String!) {
+  verify2FALogin(userId: $userId, token: $token) {
+    userId
+    role
+  }
+}
