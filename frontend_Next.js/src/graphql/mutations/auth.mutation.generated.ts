@@ -1,3 +1,4 @@
+import onQueryStarted from "@/redux/api/onQueryStarted";
 import * as Types from "../types.generated";
 
 import { api } from "@/redux/api";
@@ -104,19 +105,23 @@ const injectedRtkApi = api.injectEndpoints({
     SignUp: build.mutation<SignUpMutation, SignUpMutationVariables>({
       query: (variables) => ({ document: SignUpDocument, variables }),
       invalidatesTags: ["Auth"],
+      onQueryStarted,
     }),
     SignIn: build.mutation<SignInMutation, SignInMutationVariables>({
       query: (variables) => ({ document: SignInDocument, variables }),
       invalidatesTags: ["Auth"],
+      onQueryStarted,
     }),
     SignOut: build.mutation<SignOutMutation, SignOutMutationVariables | void>({
       query: (variables) => ({ document: SignOutDocument, variables }),
+      onQueryStarted,
     }),
     Enable2FA: build.mutation<
       Enable2FaMutation,
       Enable2FaMutationVariables | void
     >({
       query: (variables) => ({ document: Enable2FaDocument, variables }),
+      onQueryStarted,
     }),
     Disable2FA: build.mutation<
       Disable2FaMutation,
@@ -124,6 +129,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (variables) => ({ document: Disable2FaDocument, variables }),
       invalidatesTags: ["Auth"],
+      onQueryStarted,
     }),
     Verify2FALogin: build.mutation<
       Verify2FaLoginMutation,
@@ -131,6 +137,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (variables) => ({ document: Verify2FaLoginDocument, variables }),
       invalidatesTags: ["Auth"],
+      onQueryStarted,
     }),
   }),
 });

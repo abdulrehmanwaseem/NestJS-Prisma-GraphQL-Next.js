@@ -16,6 +16,7 @@ export const api = createApi({
     },
   }),
   keepUnusedDataFor: 0.01,
+
   refetchOnMountOrArgChange: true,
 
   tagTypes: ["Auth", "Users"],

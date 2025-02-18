@@ -24,7 +24,7 @@ export default function SignUp() {
       await signUp({ input: { username, email, password } }).unwrap();
       router.push(callbackUrl);
     } catch (err) {
-      toast.error((err as any)?.message || "Sign in failed");
+      // toast.error((err as any)?.message || "Sign in failed");
       console.log("Signup failed:", err);
     }
   };

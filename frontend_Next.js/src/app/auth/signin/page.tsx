@@ -33,7 +33,7 @@ export default function SignIn() {
       }
     } catch (err) {
       // You can refine this error handling as needed
-      toast.error((err as any)?.message || "Sign in failed");
+      // toast.error((err as any)?.message || "Sign in failed");
       console.log("Sign in failed:", err);
     }
   };
