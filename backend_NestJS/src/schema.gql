@@ -62,7 +62,7 @@ type Mutation {
   signIn(input: SignInInput!): SignInResponse!
   enable2FA: String!
   disable2FA: Boolean!
-  verify2FALogin(userId: String!, token: String!): AuthPayload!
+  verify2FALogin(token: String!): AuthPayload!
   signOut: Boolean!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser: Boolean!

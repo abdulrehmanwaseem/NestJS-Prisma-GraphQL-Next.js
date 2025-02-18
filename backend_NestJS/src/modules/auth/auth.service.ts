@@ -126,21 +126,25 @@ export class AuthService {
     return result ? true : false;
   }
 
-  async validate2FA(userId: string, token: string): Promise<boolean> {
+  async validate2FA(
+    userId: string,
+    token: string,
+  ): Promise<{ user: User | null; isValid: boolean }> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { twoFASecret: true },
     });
 
-    if (!user.twoFASecret) {
+    if (!user || !user.twoFASecret) {
       throw new UnauthorizedException('2FA is not enabled.');
     }
 
-    return speakeasy.totp.verify({
+    const isValid = speakeasy.totp.verify({
       secret: user.twoFASecret,
       encoding: 'base32',
       token,
     });
+
+    return { user: isValid ? user : null, isValid };
   }
 
   async verifyAndLoginWith2FA(
@@ -148,12 +152,11 @@ export class AuthService {
     token: string,
     res: Response,
   ): Promise<AuthPayload> {
-    const isValid = await this.validate2FA(userId, token);
+    const { isValid, user } = await this.validate2FA(userId, token);
+
     if (!isValid) {
       throw new UnauthorizedException('Invalid OTP Provided.');
     }
-
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
 
     return this.login(user, res);
   }

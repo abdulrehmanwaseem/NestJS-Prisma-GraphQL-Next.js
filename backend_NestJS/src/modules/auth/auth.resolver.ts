@@ -61,11 +61,11 @@ export class AuthResolver {
 
   @Mutation(() => AuthPayload)
   verify2FALogin(
-    @Args('userId') userId: string,
+    @CurrentUser() user: JwtUser,
     @Args('token') token: string,
     @Context('res') res: Response,
   ) {
-    return this.authService.verifyAndLoginWith2FA(userId, token, res);
+    return this.authService.verifyAndLoginWith2FA(user.userId, token, res);
   }
 
   @UseGuards(AuthGuard)
