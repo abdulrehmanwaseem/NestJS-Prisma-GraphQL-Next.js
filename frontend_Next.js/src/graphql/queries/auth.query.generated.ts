@@ -1,3 +1,4 @@
+import onQueryStarted from "@/redux/api/onQueryStarted";
 import * as Types from "../types.generated";
 
 import { api } from "@/redux/api";
@@ -38,6 +39,7 @@ const injectedRtkApi = api.injectEndpoints({
     GetProfile: build.query<GetProfileQuery, GetProfileQueryVariables | void>({
       query: (variables) => ({ document: GetProfileDocument, variables }),
       providesTags: ["Auth"],
+      onQueryStarted,
     }),
   }),
 });

@@ -19,13 +19,6 @@ const config: CodegenConfig = {
         importBaseApiFrom: "@/redux/api",
         baseApiImport: "api",
         exportHooks: true,
-        scalars: {
-          ID: "string",
-          String: "string",
-          Boolean: "boolean",
-          Int: "number",
-          Float: "number",
-        },
         namingConvention: {
           enumValues: "keep",
         },
