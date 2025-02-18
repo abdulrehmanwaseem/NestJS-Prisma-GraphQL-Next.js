@@ -103,9 +103,11 @@ const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     SignUp: build.mutation<SignUpMutation, SignUpMutationVariables>({
       query: (variables) => ({ document: SignUpDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
     SignIn: build.mutation<SignInMutation, SignInMutationVariables>({
       query: (variables) => ({ document: SignInDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
     SignOut: build.mutation<SignOutMutation, SignOutMutationVariables | void>({
       query: (variables) => ({ document: SignOutDocument, variables }),
@@ -121,12 +123,14 @@ const injectedRtkApi = api.injectEndpoints({
       Disable2FaMutationVariables | void
     >({
       query: (variables) => ({ document: Disable2FaDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
     Verify2FALogin: build.mutation<
       Verify2FaLoginMutation,
       Verify2FaLoginMutationVariables
     >({
       query: (variables) => ({ document: Verify2FaLoginDocument, variables }),
+      invalidatesTags: ["Auth"],
     }),
   }),
 });
