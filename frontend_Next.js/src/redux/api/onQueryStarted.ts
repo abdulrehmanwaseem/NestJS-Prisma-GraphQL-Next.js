@@ -1,23 +1,36 @@
 import { toast } from "react-toastify";
-import { signOut } from "../slice/authSlice";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
-const onQueryStarted = async (_, { queryFulfilled, dispatch }) => {
+const onQueryStarted = async (
+  _: unknown,
+  { queryFulfilled }: { queryFulfilled: Promise<{ data: unknown }> }
+) => {
   try {
     const { data } = await queryFulfilled;
     console.log(data);
     if (data) {
       toast.success("Operation successful!");
     }
-  } catch ({ error }) {
-    const status = error?.statusCode || 500;
-    const message = error?.message;
+  } catch (err) {
+    console.error("GraphQL API Error:", err);
+
+    let status = 500;
+    let message = "Something went wrong. Please try again later.";
+
+    if (err && typeof err === "object" && "error" in err) {
+      const error = err as { error: FetchBaseQueryError };
+      status = (error.error?.status as number) || 500;
+      message =
+        (error.error as any)?.data?.message ||
+        (error.error as any)?.response?.data?.message ||
+        message;
+    }
 
     switch (status) {
       case 400:
         toast.error(message || "Bad Request");
         break;
       case 401:
-        dispatch(signOut());
         toast.error(message || "You are not authorized. Please log in again.");
         break;
       case 403:
@@ -42,7 +55,7 @@ const onQueryStarted = async (_, { queryFulfilled, dispatch }) => {
         toast.error("Service Unavailable. Please try again later.");
         break;
       default:
-        toast.error(message || "Something went wrong. Please try again later.");
+        toast.error(message);
     }
   }
 };
