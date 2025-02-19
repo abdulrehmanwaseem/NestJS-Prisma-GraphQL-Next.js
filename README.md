@@ -11,11 +11,32 @@ This project is a **highly scalable, industry-standard full-stack application** 
 
 This repository provides a **full-stack solution** leveraging:
 
-- **NestJS** – A progressive Node.js framework for building scalable and maintainable server-side applications.
-- **Prisma** – A next-generation ORM for Node.js and TypeScript, providing type-safe database access with an intuitive API.
-- **GraphQL** – A powerful query language for APIs that enables flexible and efficient data fetching, reducing over-fetching and under-fetching issues.
-- **Next.js** – A modern React framework with server-side rendering (SSR) and static site generation (SSG) for optimized performance.
-- **TypeScript** – Ensures type safety, maintainability, and better developer experience.
+### Backend Features
+
+- **NestJS** – A progressive Node.js framework for building scalable and maintainable server-side applications
+- **Prisma** – A next-generation ORM for Node.js and TypeScript, providing type-safe database access with an intuitive API
+- **GraphQL** – A powerful query language for APIs that enables flexible and efficient data fetching
+- **Two-Factor Authentication (2FA)**
+  - Integration with Google Authenticator
+  - QR code generation using `qrcode`
+  - Time-based One-Time Password (TOTP) using `speakeasy`
+- **Security Features**
+  - JWT-based authentication
+  - CSRF protection
+  - Environment-based configuration
+
+### Frontend Features
+
+- **Next.js** – A modern React framework with server-side rendering (SSR) and static site generation (SSG)
+- **TypeScript** – Ensures type safety and better developer experience
+- **RTK Query** – Powerful data fetching and caching for Redux applications
+- **GraphQL Integration**
+  - GraphQL Code Generator for type-safe queries
+  - TypeScript + RTK Query codegen integration
+- **Modern Authentication**
+  - JWT token management
+  - 2FA support with Google Authenticator
+  - Secure session handling
 
 ## Project Setup
 
@@ -63,12 +84,30 @@ $ pnpm run dev
 $ pnpm run build && pnpm run start
 ```
 
+## Features
+
+### Authentication & Security
+
+- **JWT Authentication** – Secure token-based authentication system
+- **Two-Factor Authentication (2FA)**
+  - Google Authenticator integration
+  - QR code setup process
+  - TOTP verification
+- **CSRF Protection** – Cross-Site Request Forgery prevention
+
+### API & Data Management
+
+- **GraphQL API** – Type-safe API with efficient data fetching
+- **RTK Query Integration** – Powerful data fetching and caching
+- **Code Generation** – Automated type generation for GraphQL operations
+- **Prisma ORM** – Type-safe database queries and migrations
+
 ## Folder Structure
 
 ```
 /NestJS-Prisma-GraphQL-Next.js
   ├── backend_NestJS/    # NestJS API with Prisma & GraphQL
-  ├── frontend_Next.js/   # Next.js Frontend
+  ├── frontend_Next.js/  # Next.js Frontend
   ├── CODE_OF_CONDUCT.md
   ├── README.md
   ├── LICENSE
