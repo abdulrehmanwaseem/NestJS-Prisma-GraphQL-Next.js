@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Mail, Lock, ArrowRight } from "lucide-react";
+import { useSignInMutation } from "@/graphql/mutations/auth.mutation.generated";
+import { ArrowRight, Lock, Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
-import { useSignInMutation } from "@/graphql/mutations/auth.mutation.generated";
+import { useState } from "react";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -121,7 +120,7 @@ export default function SignIn() {
 
         <div className="mt-6 text-center">
           <p className="text-blue-100">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/auth/signup"
               className="text-sky-400 hover:text-sky-300 font-medium"

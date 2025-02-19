@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { User, Mail, Lock, ArrowRight } from "lucide-react";
+import { useSignUpMutation } from "@/graphql/mutations/auth.mutation.generated";
+import { ArrowRight, Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
-import { useSignUpMutation } from "@/graphql/mutations/auth.mutation.generated";
+import { useState } from "react";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");

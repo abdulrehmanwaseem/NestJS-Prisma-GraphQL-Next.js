@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { Heart, MessageCircle, Share2, Bookmark } from "lucide-react";
+import Image from "next/image";
 
 export default function PostCard() {
   return (
     <div className="card bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden">
       <figure className="relative">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
           alt="Post cover"
+          width={1000}
+          height={480} // Adjust as needed
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <button className="absolute top-4 right-4 p-2 rounded-full bg-gray-800/50 backdrop-blur-sm hover:bg-gray-700 transition-colors">

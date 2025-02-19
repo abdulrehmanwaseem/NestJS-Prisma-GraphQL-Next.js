@@ -1,6 +1,7 @@
 "use client";
 
 import { Copy, X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 interface TwoFactorModalProps {
@@ -44,9 +45,11 @@ export default function TwoFactorModal({
         </p>
 
         <div className="bg-gray-50 p-6 rounded-lg mb-6 flex justify-center">
-          <img
+          <Image
             src={qrCodeData || "/placeholder.svg"}
             alt="2FA QR Code"
+            width={192} // 48 * 4
+            height={192} // 48 * 4
             className="w-48 h-48"
           />
         </div>

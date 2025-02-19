@@ -8,6 +8,7 @@ import {
   Bookmark,
   MoreHorizontal,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function PostDetail({ params }: { params: { id: string } }) {
@@ -22,9 +23,11 @@ export default function PostDetail({ params }: { params: { id: string } }) {
       </Link>
 
       <article className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2000&q=80"
           alt="Post cover"
+          width={2000}
+          height={400}
           className="w-full h-[400px] object-cover"
         />
 

@@ -17,9 +17,9 @@ const onQueryStarted = async (
     if (err && typeof err === "object" && "error" in err) {
       const error = err as { error: FetchBaseQueryError };
 
-      if (error?.error?.path === "getProfile") {
-        return null;
-      }
+      // if (error?.error?.path === "getProfile") {
+      //   return;
+      // }
       status = (error.error?.status as number) || 500;
       message =
         (error.error as any)?.data?.message ||

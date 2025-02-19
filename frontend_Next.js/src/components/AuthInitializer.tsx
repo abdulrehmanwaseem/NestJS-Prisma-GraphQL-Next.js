@@ -12,7 +12,6 @@ interface AuthInitializerProps {
 const AuthInitializer = ({ children }: AuthInitializerProps) => {
   const dispatch = useDispatch();
   const { data, isSuccess, isLoading, isFetching } = useGetProfileQuery();
-  console.log(data);
 
   useEffect(() => {
     if (isSuccess && data?.getProfile) {
@@ -20,7 +19,7 @@ const AuthInitializer = ({ children }: AuthInitializerProps) => {
     }
   }, [isFetching]);
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <></>;
   }
   return <>{children}</>;
