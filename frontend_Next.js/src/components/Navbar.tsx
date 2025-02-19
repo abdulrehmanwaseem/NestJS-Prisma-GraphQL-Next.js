@@ -3,7 +3,7 @@
 import { useState, ReactNode } from "react";
 import Link from "next/link";
 import { Bell, PenSquare, Search } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { getInitials } from "@/lib/utils";
 import Image from "next/image";
@@ -13,6 +13,7 @@ import { useSignOutMutation } from "@/graphql/mutations/auth.mutation.generated"
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [signOutMutation] = useSignOutMutation();
   const { user, isAuthenticated } = useCurrentUser();
 
@@ -24,6 +25,7 @@ export default function Navbar() {
       const { data } = await signOutMutation();
       if (data?.signOut) {
         dispatch(signOut());
+        router.push("/");
       }
     } catch (error) {
       console.log("ERROR While signing out", error);

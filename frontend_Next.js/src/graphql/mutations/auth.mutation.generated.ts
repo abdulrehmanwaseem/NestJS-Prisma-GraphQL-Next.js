@@ -114,6 +114,7 @@ const injectedRtkApi = api.injectEndpoints({
     }),
     SignOut: build.mutation<SignOutMutation, SignOutMutationVariables | void>({
       query: (variables) => ({ document: SignOutDocument, variables }),
+      invalidatesTags: ["Auth"],
       onQueryStarted,
     }),
     Enable2FA: build.mutation<

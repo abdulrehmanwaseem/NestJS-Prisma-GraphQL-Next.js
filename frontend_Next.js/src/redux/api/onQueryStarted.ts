@@ -7,18 +7,19 @@ const onQueryStarted = async (
 ) => {
   try {
     const { data } = await queryFulfilled;
+
     console.log(data);
-    if (data) {
-      toast.success("Operation successful!");
-    }
   } catch (err) {
-    console.error("GraphQL API Error:", err);
+    console.log("GraphQL API Error:", err);
 
     let status = 500;
     let message = "Something went wrong. Please try again later.";
-
     if (err && typeof err === "object" && "error" in err) {
       const error = err as { error: FetchBaseQueryError };
+
+      if (error?.error?.path === "getProfile") {
+        return null;
+      }
       status = (error.error?.status as number) || 500;
       message =
         (error.error as any)?.data?.message ||
